@@ -3,8 +3,8 @@ package pl.edu.agh.iet.tsp_solver;
 import java.io.File;
 import java.io.IOException;
 
-import pl.edu.agh.iet.tsp_solver.data.TSPDataSerialization;
-import pl.edu.agh.iet.tsp_solver.data.TSPData;
+import pl.edu.agh.iet.tsp_solver.Model.TSPData;
+import pl.edu.agh.iet.tsp_solver.Model.TSPDataSerialization;
 
 public class Hello {
 
