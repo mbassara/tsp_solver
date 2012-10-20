@@ -1,6 +1,7 @@
 package pl.edu.agh.iet.tsp_solver.Model;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Random;
 
 public class TSPData {
@@ -8,6 +9,10 @@ public class TSPData {
 	private String name;
 	private String comment;
 	private int dimension;
+	private double minX = 0.0;
+	private double minY = 0.0;
+	private double maxX = 0.0;
+	private double maxY = 0.0;
 	private ArrayList<Field> nodes;
 
 	public TSPData(String name, String comment, int dimension,
@@ -16,6 +21,20 @@ public class TSPData {
 		this.comment = comment;
 		this.dimension = dimension;
 		this.nodes = new ArrayList<Field>(nodes);
+
+		if(nodes.size() > 0){
+			ArrayList<Double> x = new ArrayList<Double>();
+			ArrayList<Double> y = new ArrayList<Double>();
+			for(Field field : nodes){
+				x.add(field.getX());
+				y.add(field.getY());
+			}
+			
+			minX = Collections.min(x);
+			maxX = Collections.max(x);
+			minY = Collections.min(y);
+			maxY = Collections.max(y);
+		}
 	}
 
 	public String getName() {
@@ -29,6 +48,22 @@ public class TSPData {
 	public int getDimension() {
 		return dimension;
 	}
+	
+	public double getMaxX() {
+		return maxX;
+	}
+	
+	public double getMaxY() {
+		return maxY;
+	}
+	
+	public double getMinX() {
+		return minX;
+	}
+	
+	public double getMinY() {
+		return minY;
+	}
 
 	public Collection<Field> getNodes() {
 		return nodes;
@@ -41,6 +76,8 @@ public class TSPData {
 		if(comment != null) result += "\n\tcomment:\t" + comment;
 		if(dimension != -1) result += "\n\tdimmen:\t\t" + dimension;
 		if(nodes != null && nodes.size() > 0){
+			result += "\n\tX range:\t" + minX + "\t<=>\t" + maxX;
+			result += "\n\tY range:\t" + minY + "\t<=>\t" + maxY;
 			result += "\n\tpoints:\t\t";
 			if (nodes != null)
 				for (Field field : nodes)
@@ -51,12 +88,12 @@ public class TSPData {
 		return result;
 	}
 	
-	public static TSPData generateData(String name, String comment, int dimension, int size){
+	public static TSPData generateData(String name, String comment, int dimension, int mapWidth){
 		ArrayList<Field> fields = new ArrayList<Field>();
 		
 		Random rand = new Random();
 		for (int i = 0; i < dimension; i++) {
-			Field field = new Field((double) rand.nextInt(size), (double) rand.nextInt(size));
+			Field field = new Field((double) rand.nextInt(mapWidth) - mapWidth / 2, (double) rand.nextInt(mapWidth) - mapWidth / 2);
 			fields.add(field);
 		}
 		

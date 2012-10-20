@@ -21,7 +21,7 @@ public class Hello {
 
 		TSPData sample = TSPData.generateData("sample",
 				"przykladowe wygenerowane dane wejsciowe dla naszego programu",
-				69, 1500);
+				69, 3000);
 		TSPDataSerialization.serialize(sample, new File(
 				"./sample_data/sample.tsp"));
 		System.out.println(":D");

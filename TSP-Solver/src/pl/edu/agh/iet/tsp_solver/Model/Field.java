@@ -1,21 +1,13 @@
 package pl.edu.agh.iet.tsp_solver.Model;
 
-public class Field {
+import java.awt.geom.Point2D;
+
+public class Field extends Point2D.Double {
 	
-	private double x;
-	private double y;
+	private static final long serialVersionUID = -7345685506139788789L;
 	
 	public Field(double x, double y){
-		this.x = x;
-		this.y = y;
-	}
-	
-	public double getX(){
-		return x;
-	}
-	
-	public double getY(){
-		return y;
+		super(x, y);
 	}
 	
 	@Override
