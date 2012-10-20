@@ -18,9 +18,13 @@ public class Hello {
 				System.out.println(data + "\n");
 			}
 		}
-		
-		TSPData sample = TSPData.generateData("sample", "przykladowe wygenerowane dane wejsciowe dla naszego programu", 69, 1500);
-		TSPDataSerialization.serialize(sample, new File("./sample_data/sample.tsp"));
+
+		TSPData sample = TSPData.generateData("sample",
+				"przykladowe wygenerowane dane wejsciowe dla naszego programu",
+				69, 1500);
+		TSPDataSerialization.serialize(sample, new File(
+				"./sample_data/sample.tsp"));
+		System.out.println(":D");
 	}
 
 }
