@@ -1,6 +1,7 @@
 package pl.edu.agh.iet.tsp_solver.Model;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Random;
 
 public class TSPData {
 
@@ -48,6 +49,18 @@ public class TSPData {
 		}
 
 		return result;
+	}
+	
+	public static TSPData generateData(String name, String comment, int dimension, int size){
+		ArrayList<Field> fields = new ArrayList<Field>();
+		
+		Random rand = new Random();
+		for (int i = 0; i < dimension; i++) {
+			Field field = new Field((double) rand.nextInt(size), (double) rand.nextInt(size));
+			fields.add(field);
+		}
+		
+		return new TSPData(name, comment, dimension, fields);
 	}
 
 }

@@ -2,13 +2,13 @@ package pl.edu.agh.iet.tsp_solver.Model;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class TSPDataSerialization {
 	
@@ -20,7 +20,7 @@ public class TSPDataSerialization {
 			BufferedWriter writer = new BufferedWriter(
 										new OutputStreamWriter(
 											new FileOutputStream(file),
-											Charset.forName("UTF-8")));
+											Charset.forName("ASCII")));
 			
 			if(data.getName() != null)
 				writer.write("NAME: " + data.getName() + System.getProperty("line.separator"));
@@ -67,7 +67,10 @@ public class TSPDataSerialization {
 		ArrayList<Field> nodes = new ArrayList<Field>();
 
 		try {
-			BufferedReader reader = new BufferedReader(new FileReader(tsvFile));
+			BufferedReader reader = new BufferedReader(
+										new InputStreamReader(
+											new FileInputStream(tsvFile),
+											Charset.forName("ASCII")));
 
 			boolean coordinates_section_reached = false;
 			String line = reader.readLine();
@@ -112,18 +115,6 @@ public class TSPDataSerialization {
 		}
 
 		return new TSPData(name, comment, dimension, nodes);
-	}
-	
-	public static TSPData generateData(String name, String comment, int dimension, int size){
-		ArrayList<Field> fields = new ArrayList<Field>();
-		
-		Random rand = new Random();
-		for (int i = 0; i < dimension; i++) {
-			Field field = new Field((double) rand.nextInt(size), (double) rand.nextInt(size));
-			fields.add(field);
-		}
-		
-		return new TSPData(name, comment, dimension, fields);
 	}
 
 }

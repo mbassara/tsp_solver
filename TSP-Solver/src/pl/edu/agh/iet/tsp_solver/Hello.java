@@ -19,7 +19,7 @@ public class Hello {
 			}
 		}
 		
-		TSPData sample = TSPDataSerialization.generateData("sample", "przyk³adowe wygenerowane dane wejœciowe dla naszego programu", 69, 1500);
+		TSPData sample = TSPData.generateData("sample", "przykladowe wygenerowane dane wejsciowe dla naszego programu", 69, 1500);
 		TSPDataSerialization.serialize(sample, new File("./sample_data/sample.tsp"));
 	}
 
