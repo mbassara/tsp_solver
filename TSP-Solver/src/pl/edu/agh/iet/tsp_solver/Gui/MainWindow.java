@@ -5,15 +5,16 @@ import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
-
-import pl.edu.agh.iet.tsp_solver.Model.TSPData;
 
 public class MainWindow {
 	public static void main(String[] args) {
@@ -33,30 +34,20 @@ public class MainWindow {
 		}
 
 		JPanel commandPanel = new JPanel(new FlowLayout());
-		JButton openButton = new JButton("Open  Ctrl-O");
-		JButton randomButton = new JButton("Random data Ctrl+R");
-		JButton plotButton = new JButton("Draw  Ctrl-P");
-		JButton quitButton = new JButton("Quit  Ctrl-Q");
+		JButton openButton = new JButton("Open");
+		JButton randomButton = new JButton("Random data");
+		JButton plotButton = new JButton("Draw");
+		JButton quitButton = new JButton("Quit");
+
+		openButton.setToolTipText("Ctrl + O");
+		randomButton.setToolTipText("Ctrl + R");
+		plotButton.setToolTipText("Ctrl + D");
+		quitButton.setToolTipText("Ctrl + Q");
+
 		quitButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
-			}
-		});
-		randomButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// to do - make a new window to choose name , comment ,
-				// dimension and mapwidth
-				TSPData data = TSPData.generateData("random data", "comment",
-						10, 100);
-				TSPDataPanel dataPanel = new TSPDataPanel(frame);
-				dataPanel.initialized = dataPanel.readData(data);
-				dataPanel.panel.update(dataPanel.panel.getGraphics());
-				dataPanel.refreshData();
-				// dataPanel.frame.pack();
-				dataPanel.frame.setVisible(true);
 			}
 		});
 		commandPanel.registerKeyboardAction(new ActionListener() {
@@ -72,18 +63,41 @@ public class MainWindow {
 		commandPanel.add(randomButton);
 		frame.getContentPane().add(commandPanel, "North");
 
-		GraphPanel graphpanel = new GraphPanel(frame);
+		final GraphPanel graphpanel = new GraphPanel(frame);
 		plotButton.addActionListener(graphpanel);
 		commandPanel.registerKeyboardAction(graphpanel,
-				KeyStroke.getKeyStroke("control P"),
-				JComponent.WHEN_IN_FOCUSED_WINDOW);
-		commandPanel.registerKeyboardAction(graphpanel,
-				KeyStroke.getKeyStroke("control R"),
+				KeyStroke.getKeyStroke("control D"),
 				JComponent.WHEN_IN_FOCUSED_WINDOW);
 
-		openButton.addActionListener(graphpanel.getTSPDataPanel());
-		commandPanel.registerKeyboardAction(graphpanel.getTSPDataPanel(),
+		ActionListener openButtonActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser fileChooser = new JFileChooser(".");
+				fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				int result = fileChooser.showOpenDialog(frame);
+				if (result != JFileChooser.APPROVE_OPTION) {
+					JLabel msg = new JLabel("No file selected");
+					frame.add(msg);
+					return;
+				}
+
+				File datafile = fileChooser.getSelectedFile();
+				graphpanel.getTSPDataPanel().fillWithData(datafile);
+			}
+		};
+		ActionListener randomButtonActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				graphpanel.getTSPDataPanel().fillWithRandomData();
+			}
+		};
+		openButton.addActionListener(openButtonActionListener);
+		randomButton.addActionListener(randomButtonActionListener);
+		commandPanel.registerKeyboardAction(openButtonActionListener,
 				KeyStroke.getKeyStroke("control O"),
+				JComponent.WHEN_IN_FOCUSED_WINDOW);
+		commandPanel.registerKeyboardAction(randomButtonActionListener,
+				KeyStroke.getKeyStroke("control R"),
 				JComponent.WHEN_IN_FOCUSED_WINDOW);
 
 		frame.setVisible(true);

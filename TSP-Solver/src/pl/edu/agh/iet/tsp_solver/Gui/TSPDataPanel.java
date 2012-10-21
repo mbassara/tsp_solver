@@ -1,25 +1,24 @@
 package pl.edu.agh.iet.tsp_solver.Gui;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.io.File;
 import java.util.ArrayList;
 
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
 import pl.edu.agh.iet.tsp_solver.Model.Field;
 import pl.edu.agh.iet.tsp_solver.Model.TSPData;
 import pl.edu.agh.iet.tsp_solver.Model.TSPDataSerialization;
 
-public class TSPDataPanel implements ActionListener {
+public class TSPDataPanel {
 	boolean initialized;
 	int nameIndex, commentIndex, xMaxIndex;
 	int dimensionIndex, edgeIndex, xMinIndex;
@@ -71,23 +70,18 @@ public class TSPDataPanel implements ActionListener {
 		frame.getContentPane().add(panel, "West");
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		JFrame fileFrame = new JFrame();
-		JPanel filePanel = new JPanel();
-		JFileChooser fileChooser = new JFileChooser(".");
-		fileFrame.getContentPane().add(filePanel);
-		filePanel.add(fileChooser);
-		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		int result = fileChooser.showOpenDialog(filePanel);
-		if (result != JFileChooser.APPROVE_OPTION) {
-			msg = new JLabel("No file selected");
-			panel.add(msg);
-			return;
-		}
+	public void fillWithRandomData() {
+		TSPData data = TSPData
+				.generateData("random data", "comment", 100, 1500);
+		fillWithData(data);
+	}
 
-		File datafile = fileChooser.getSelectedFile();
-		TSPData data = TSPDataSerialization.deserialize(datafile);
+	public void fillWithData(File file) {
+		TSPData data = TSPDataSerialization.deserialize(file);
+		fillWithData(data);
+	}
+
+	public void fillWithData(TSPData data) {
 		initialized = readData(data);
 		panel.update(panel.getGraphics());
 		// frame.pack();
@@ -131,6 +125,10 @@ public class TSPDataPanel implements ActionListener {
 			frame.getContentPane().remove(scrollPane);
 		panel = new JPanel(new GridLayout(8 + data.getDimension(), 2));
 		for (int i = 0; i < 7; i++) {
+			paramFields[i].setPreferredSize(new Dimension(200, paramFields[i]
+					.getHeight()));
+			paramLabels[i].setPreferredSize(new Dimension(200, paramLabels[i]
+					.getHeight()));
 			panel.add(paramLabels[i]);
 			panel.add(paramFields[i]);
 		}
@@ -139,6 +137,7 @@ public class TSPDataPanel implements ActionListener {
 			panel.add(dataFields[2 * i + 1]);
 		}
 		scrollPane = new JScrollPane(panel);
+		scrollPane.setBorder(new EmptyBorder(10, 10, 10, 10));
 		frame.getContentPane().add(scrollPane, "West");
 
 		return true;

@@ -32,7 +32,7 @@ public class GraphPanel implements ActionListener {
 		// frame.pack();
 	}
 
-	ActionListener getTSPDataPanel() {
+	TSPDataPanel getTSPDataPanel() {
 		return datapanel;
 	}
 }
