@@ -6,15 +6,15 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 
 public class GraphPanel implements ActionListener {
-	DataPanel datapanel;
+	TSPDataPanel datapanel;
 	JFrame frame;
-	GraphicPanel panel;
+	MapPanel panel;
 
 	GraphPanel(JFrame newFrame) {
 		frame = newFrame;
-		panel = new GraphicPanel();
+		panel = new MapPanel();
 		panel.setDisplayPlot(false);
-		datapanel = new DataPanel(frame);
+		datapanel = new TSPDataPanel(frame);
 		panel.setDataPanel(datapanel);
 		frame.getContentPane().add(panel, "Center");
 	}

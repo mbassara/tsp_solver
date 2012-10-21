@@ -12,13 +12,14 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import pl.edu.agh.iet.tsp_solver.Model.Field;
 import pl.edu.agh.iet.tsp_solver.Model.TSPData;
 import pl.edu.agh.iet.tsp_solver.Model.TSPDataSerialization;
 
-public class DataPanel implements ActionListener {
+public class TSPDataPanel implements ActionListener {
 	boolean initialized;
 	int nameIndex, commentIndex, xMaxIndex;
 	int dimensionIndex, edgeIndex, xMinIndex;
@@ -38,7 +39,7 @@ public class DataPanel implements ActionListener {
 	JTextField[] paramFields;
 	JTextField[] dataFields;
 
-	DataPanel(JFrame newFrame) {
+	TSPDataPanel(JFrame newFrame) {
 		initialized = false;
 		numberOfPoints = numberOfPointsAllocated = 0;
 		nameIndex = 0;
@@ -137,7 +138,8 @@ public class DataPanel implements ActionListener {
 			panel.add(dataFields[2 * i]);
 			panel.add(dataFields[2 * i + 1]);
 		}
-		frame.getContentPane().add(panel, "West");
+		JScrollPane scrollPane = new JScrollPane(panel);
+		frame.getContentPane().add(scrollPane, "West");
 
 		return true;
 	}

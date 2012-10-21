@@ -15,10 +15,6 @@ import javax.swing.KeyStroke;
 public class MainWindow {
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("TSP Solver");
-		Toolkit tk = Toolkit.getDefaultToolkit();
-		int xSize = ((int) tk.getScreenSize().getWidth());
-		int ySize = ((int) tk.getScreenSize().getHeight());
-		frame.setSize(xSize, ySize);
 		frame.getContentPane().setLayout(new BorderLayout());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -54,7 +50,10 @@ public class MainWindow {
 		commandPanel.registerKeyboardAction(graphpanel.getDataPanel(),
 				KeyStroke.getKeyStroke("control O"),
 				JComponent.WHEN_IN_FOCUSED_WINDOW);
-
+		Toolkit tk = Toolkit.getDefaultToolkit();
+		int xSize = ((int) tk.getScreenSize().getWidth());
+		int ySize = ((int) tk.getScreenSize().getHeight());
+		frame.setSize(479, 71);
 		frame.setVisible(true);
 		frame.pack();
 	}
