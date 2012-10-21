@@ -11,6 +11,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
+import javax.swing.UIManager;
 
 import pl.edu.agh.iet.tsp_solver.Model.TSPData;
 
@@ -23,6 +24,13 @@ public class MainWindow {
 		frame.setSize(xSize, ySize);
 		frame.getContentPane().setLayout(new BorderLayout());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		// System LookAndFeel
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 
 		JPanel commandPanel = new JPanel(new FlowLayout());
 		JButton openButton = new JButton("Open  Ctrl-O");

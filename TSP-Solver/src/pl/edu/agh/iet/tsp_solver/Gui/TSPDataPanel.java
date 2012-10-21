@@ -26,6 +26,7 @@ public class TSPDataPanel implements ActionListener {
 	int yMinIndex, yMaxIndex;
 	JFrame frame;
 	JPanel panel;
+	JScrollPane scrollPane;
 	JLabel msg;
 	String name;
 	String comment;
@@ -74,7 +75,7 @@ public class TSPDataPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		JFrame fileFrame = new JFrame();
 		JPanel filePanel = new JPanel();
-		JFileChooser fileChooser = new JFileChooser();
+		JFileChooser fileChooser = new JFileChooser(".");
 		fileFrame.getContentPane().add(filePanel);
 		filePanel.add(fileChooser);
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -126,7 +127,8 @@ public class TSPDataPanel implements ActionListener {
 			dataFields[2 * i + 1] = new JTextField(ey.toString());
 		}
 
-		frame.getContentPane().remove(panel);
+		if (scrollPane != null)
+			frame.getContentPane().remove(scrollPane);
 		panel = new JPanel(new GridLayout(8 + data.getDimension(), 2));
 		for (int i = 0; i < 7; i++) {
 			panel.add(paramLabels[i]);
@@ -136,7 +138,7 @@ public class TSPDataPanel implements ActionListener {
 			panel.add(dataFields[2 * i]);
 			panel.add(dataFields[2 * i + 1]);
 		}
-		JScrollPane scrollPane = new JScrollPane(panel);
+		scrollPane = new JScrollPane(panel);
 		frame.getContentPane().add(scrollPane, "West");
 
 		return true;
