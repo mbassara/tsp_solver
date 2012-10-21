@@ -33,15 +33,13 @@ public class TSPDataPanel implements ActionListener {
 	float xMax, xMin;
 	float yMin, yMax;
 	Point2D.Float[] points;
-	int numberOfPoints;
-	int numberOfPointsAllocated;
 	JLabel[] paramLabels;
 	JTextField[] paramFields;
 	JTextField[] dataFields;
 
 	TSPDataPanel(JFrame newFrame) {
 		initialized = false;
-		numberOfPoints = numberOfPointsAllocated = 0;
+
 		nameIndex = 0;
 		commentIndex = 1;
 		dimensionIndex = 2;
@@ -89,9 +87,9 @@ public class TSPDataPanel implements ActionListener {
 
 		File datafile = fileChooser.getSelectedFile();
 		TSPData data = TSPDataSerialization.deserialize(datafile);
-		initialized = readFile(data);
+		initialized = readData(data);
 		panel.update(panel.getGraphics());
-		frame.pack();
+		// frame.pack();
 		frame.setVisible(true);
 	}
 
@@ -101,7 +99,7 @@ public class TSPDataPanel implements ActionListener {
 	// The rest of the line is the value.
 	// It is terminated by a line containing the word "Data".
 	// The second section contains the data pairs that will be graphed.
-	boolean readFile(TSPData data) {
+	boolean readData(TSPData data) {
 
 		dataFields = new JTextField[2 * data.getDimension()];
 		points = new Point2D.Float[data.getDimension()];

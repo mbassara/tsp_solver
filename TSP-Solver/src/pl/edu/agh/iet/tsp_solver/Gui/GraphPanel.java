@@ -27,12 +27,12 @@ public class GraphPanel implements ActionListener {
 		datapanel.refreshData();
 		panel.setDisplayPlot(true);
 		panel.update(panel.getGraphics());
-		frame.setSize(700, 600);
+		// frame.setSize(700, 600);
 		frame.setVisible(true);
-		frame.pack();
+		// frame.pack();
 	}
 
-	ActionListener getDataPanel() {
+	ActionListener getTSPDataPanel() {
 		return datapanel;
 	}
 }
