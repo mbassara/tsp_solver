@@ -41,7 +41,7 @@ public class TSPDataSerialization {
 			
 			int index = 1;
 			if(data.getNodes() != null){
-				for(Field field : data.getNodes())
+				for(Node field : data.getNodes())
 					writer.write(index++ + " " + field.getX() + " " + field.getY() + System.getProperty("line.separator"));
 			}
 			
@@ -64,7 +64,7 @@ public class TSPDataSerialization {
 	public static TSPData deserialize(File tsvFile) {
 		String name = null, comment = null;
 		int dimension = -1;
-		ArrayList<Field> nodes = new ArrayList<Field>();
+		ArrayList<Node> nodes = new ArrayList<Node>();
 
 		try {
 			BufferedReader reader = new BufferedReader(
@@ -81,7 +81,7 @@ public class TSPDataSerialization {
 
 				if (coordinates_section_reached) {
 					String[] lineSplit = line.split(" ");
-					nodes.add(new Field(Double.parseDouble(lineSplit[1]),
+					nodes.add(new Node(Double.parseDouble(lineSplit[1]),
 							Double.parseDouble(lineSplit[2])));
 				}
 

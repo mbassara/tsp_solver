@@ -1,4 +1,5 @@
 package pl.edu.agh.iet.tsp_solver.Model;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -13,21 +14,21 @@ public class TSPData {
 	private double minY = 0.0;
 	private double maxX = 0.0;
 	private double maxY = 0.0;
-	private final ArrayList<Field> nodes;
+	private final ArrayList<Node> nodes;
 
 	public TSPData(String name, String comment, int dimension,
-			Collection<Field> nodes) {
+			Collection<Node> nodes) {
 		this.name = name;
 		this.comment = comment;
 		this.dimension = dimension;
-		this.nodes = new ArrayList<Field>(nodes);
+		this.nodes = new ArrayList<Node>(nodes);
 
 		if (nodes.size() > 0) {
 			ArrayList<Double> x = new ArrayList<Double>();
 			ArrayList<Double> y = new ArrayList<Double>();
-			for (Field field : nodes) {
-				x.add(field.getX());
-				y.add(field.getY());
+			for (Node node : nodes) {
+				x.add(node.getX());
+				y.add(node.getY());
 			}
 
 			minX = Collections.min(x);
@@ -48,25 +49,32 @@ public class TSPData {
 	public int getDimension() {
 		return dimension;
 	}
-	
+
 	public double getMaxX() {
 		return maxX;
 	}
-	
+
 	public double getMaxY() {
 		return maxY;
 	}
-	
+
 	public double getMinX() {
 		return minX;
 	}
-	
+
 	public double getMinY() {
 		return minY;
 	}
 
-	public Collection<Field> getNodes() {
+	public Collection<Node> getNodes() {
 		return nodes;
+	}
+
+	public Node getNode(int i) {
+		if (nodes == null || nodes.size() <= i)
+			return null;
+
+		return nodes.get(i);
 	}
 
 	@Override
@@ -84,7 +92,7 @@ public class TSPData {
 			result += "\n\tY range:\t" + minY + "\t<=>\t" + maxY;
 			result += "\n\tpoints:\t\t";
 			if (nodes != null)
-				for (Field field : nodes)
+				for (Node field : nodes)
 					result += field + " ";
 			result.substring(0, result.length() - 2);
 		}
@@ -95,11 +103,11 @@ public class TSPData {
 	public static TSPData generateData(String name, String comment,
 			int dimension, int mapWidth) {
 
-		ArrayList<Field> fields = new ArrayList<Field>();
+		ArrayList<Node> fields = new ArrayList<Node>();
 
 		Random rand = new Random();
 		for (int i = 0; i < dimension; i++) {
-			Field field = new Field((double) rand.nextInt(mapWidth) - mapWidth
+			Node field = new Node((double) rand.nextInt(mapWidth) - mapWidth
 					/ 2, (double) rand.nextInt(mapWidth) - mapWidth / 2);
 			fields.add(field);
 		}
