@@ -1,34 +1,59 @@
 package pl.edu.agh.iet.tsp_solver.Gui;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 import pl.edu.agh.iet.tsp_solver.Model.TSPData;
+import pl.edu.agh.iet.tsp_solver.Model.TSPDataSerialization;
 
 public class MainWindow {
+
+	private static GraphPanel graphPanel;
+	private static TSPDataPanel tspDataPanel;
+
 	public static void main(String[] args) {
 		final JFrame frame = new JFrame("TSP Solver");
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		int xSize = ((int) tk.getScreenSize().getWidth());
 		int ySize = ((int) tk.getScreenSize().getHeight());
 		frame.setSize(xSize, ySize);
+		try {
+			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+				if ("Nimbus".equals(info.getName())) {
+					UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
+		} catch (Exception e) {
+			// If Nimbus is not available, you can set the GUI to another look
+			// and feel.
+		}
 		frame.getContentPane().setLayout(new BorderLayout());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		JPanel commandPanel = new JPanel(new FlowLayout());
-		JButton openButton = new JButton("Open  Ctrl-O");
-		JButton randomButton = new JButton("Random data Ctrl+R");
-		JButton plotButton = new JButton("Draw  Ctrl-P");
-		JButton quitButton = new JButton("Quit  Ctrl-Q");
+		graphPanel = new GraphPanel(frame);
+		tspDataPanel = new TSPDataPanel(frame);
+		JPanel commandPanel = new JPanel();
+		commandPanel
+				.setLayout(new BoxLayout(commandPanel, BoxLayout.PAGE_AXIS));
+		JButton openButton = new JButton("Open");
+		JButton randomButton = new JButton("Random data");
+		final JButton plotButton = new JButton("Draw");
+		JButton quitButton = new JButton("Quit");
 		quitButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -42,13 +67,17 @@ public class MainWindow {
 				// to do - make a new window to choose name , comment ,
 				// dimension and mapwidth
 				TSPData data = TSPData.generateData("random data", "comment",
-						10, 100);
-				TSPDataPanel dataPanel = new TSPDataPanel(frame);
-				dataPanel.initialized = dataPanel.readData(data);
-				dataPanel.panel.update(dataPanel.panel.getGraphics());
-				dataPanel.refreshData();
+						10, 10000);
+				tspDataPanel = new TSPDataPanel(frame);
+				tspDataPanel.initialized = tspDataPanel.readData(data);
+				tspDataPanel.panel.update(tspDataPanel.panel.getGraphics());
+				tspDataPanel.refreshData();
 				// dataPanel.frame.pack();
-				dataPanel.frame.setVisible(true);
+				tspDataPanel.frame.setVisible(true);
+				graphPanel.setTSPDataPanel(tspDataPanel);
+				// GraphPanel graphpanel = new GraphPanel(dataPanel.frame);
+				// graphpanel.datapanel = dataPanel;
+				// plotButton.addActionListener(graphpanel);
 			}
 		});
 		commandPanel.registerKeyboardAction(new ActionListener() {
@@ -62,21 +91,35 @@ public class MainWindow {
 		commandPanel.add(plotButton);
 		commandPanel.add(quitButton);
 		commandPanel.add(randomButton);
-		frame.getContentPane().add(commandPanel, "North");
+		frame.getContentPane().add(commandPanel, "East");
 
-		GraphPanel graphpanel = new GraphPanel(frame);
-		plotButton.addActionListener(graphpanel);
-		commandPanel.registerKeyboardAction(graphpanel,
-				KeyStroke.getKeyStroke("control P"),
-				JComponent.WHEN_IN_FOCUSED_WINDOW);
-		commandPanel.registerKeyboardAction(graphpanel,
-				KeyStroke.getKeyStroke("control R"),
-				JComponent.WHEN_IN_FOCUSED_WINDOW);
+		plotButton.addActionListener(graphPanel);
 
-		openButton.addActionListener(graphpanel.getTSPDataPanel());
-		commandPanel.registerKeyboardAction(graphpanel.getTSPDataPanel(),
-				KeyStroke.getKeyStroke("control O"),
-				JComponent.WHEN_IN_FOCUSED_WINDOW);
+		openButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFrame fileFrame = new JFrame();
+				JPanel filePanel = new JPanel();
+				JFileChooser fileChooser = new JFileChooser();
+				fileFrame.getContentPane().add(filePanel);
+				filePanel.add(fileChooser);
+				fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				int result = fileChooser.showOpenDialog(filePanel);
+				if (result != JFileChooser.APPROVE_OPTION) {
+					tspDataPanel.msg = new JLabel("No file selected");
+					tspDataPanel.panel.add(tspDataPanel.msg);
+					return;
+				}
+
+				File datafile = fileChooser.getSelectedFile();
+				TSPData data = TSPDataSerialization.deserialize(datafile);
+				tspDataPanel.initialized = tspDataPanel.readData(data);
+				tspDataPanel.panel.update(tspDataPanel.panel.getGraphics());
+				// frame.pack();
+				tspDataPanel.frame.setVisible(true);
+			}
+		});
 
 		frame.setVisible(true);
 		// frame.pack();

@@ -29,10 +29,16 @@ public class MapPanel extends JPanel {
 		if (data.isInitialized() && display_plot) {
 			data.refreshData();
 			g2d.setPaint(Color.gray);
-			for (Float x = new Float(50); x <= 450; x += 400 * 50 / (data.xMax - data.xMin))
+			// for (Float x = new Float(50); x <= 450; x += 400 * 50 /
+			// (data.xMax - data.xMin))
+			// g2d.draw(new Line2D.Float(x, 450, x, 50));
+			// for (Float y = new Float(50); y <= 450; y += 400 * 50 /
+			// (data.yMax - data.yMin))
+			// g2d.draw(new Line2D.Float(45, y, 450, y));
+			for (Float x = new Float(50); x <= 450; x += 400 * 50 / 1000)
 				g2d.draw(new Line2D.Float(x, 450, x, 50));
-			for (Float y = new Float(50); y <= 450; y += 400 * 50 / (data.yMax - data.yMin))
-				g2d.draw(new Line2D.Float(45, y, 450, y));
+			for (Float y = new Float(50); y <= 450; y += 400 * 50 / 1000)
+				g2d.draw(new Line2D.Float(50, y, 450, y));
 
 			g2d.setPaint(Color.red);
 			Float diam = new Float(8);

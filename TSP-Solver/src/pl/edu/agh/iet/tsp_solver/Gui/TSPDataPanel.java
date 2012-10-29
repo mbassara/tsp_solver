@@ -1,14 +1,10 @@
 package pl.edu.agh.iet.tsp_solver.Gui;
 
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
-import java.io.File;
 import java.util.ArrayList;
 
-import javax.swing.JFileChooser;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,9 +13,8 @@ import javax.swing.JTextField;
 
 import pl.edu.agh.iet.tsp_solver.Model.Field;
 import pl.edu.agh.iet.tsp_solver.Model.TSPData;
-import pl.edu.agh.iet.tsp_solver.Model.TSPDataSerialization;
 
-public class TSPDataPanel implements ActionListener {
+public class TSPDataPanel {
 	boolean initialized;
 	int nameIndex, commentIndex, xMaxIndex;
 	int dimensionIndex, edgeIndex, xMinIndex;
@@ -66,32 +61,33 @@ public class TSPDataPanel implements ActionListener {
 		paramFields[yMaxIndex] = new JTextField("10");
 
 		frame = newFrame;
-		panel = new JPanel(new FlowLayout());
+		panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		frame.getContentPane().add(panel, "West");
 	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		JFrame fileFrame = new JFrame();
-		JPanel filePanel = new JPanel();
-		JFileChooser fileChooser = new JFileChooser();
-		fileFrame.getContentPane().add(filePanel);
-		filePanel.add(fileChooser);
-		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		int result = fileChooser.showOpenDialog(filePanel);
-		if (result != JFileChooser.APPROVE_OPTION) {
-			msg = new JLabel("No file selected");
-			panel.add(msg);
-			return;
-		}
-
-		File datafile = fileChooser.getSelectedFile();
-		TSPData data = TSPDataSerialization.deserialize(datafile);
-		initialized = readData(data);
-		panel.update(panel.getGraphics());
-		// frame.pack();
-		frame.setVisible(true);
-	}
+	//
+	// @Override
+	// public void actionPerformed(ActionEvent e) {
+	// JFrame fileFrame = new JFrame();
+	// JPanel filePanel = new JPanel();
+	// JFileChooser fileChooser = new JFileChooser();
+	// fileFrame.getContentPane().add(filePanel);
+	// filePanel.add(fileChooser);
+	// fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+	// int result = fileChooser.showOpenDialog(filePanel);
+	// if (result != JFileChooser.APPROVE_OPTION) {
+	// msg = new JLabel("No file selected");
+	// panel.add(msg);
+	// return;
+	// }
+	//
+	// File datafile = fileChooser.getSelectedFile();
+	// TSPData data = TSPDataSerialization.deserialize(datafile);
+	// initialized = readData(data);
+	// panel.update(panel.getGraphics());
+	// // frame.pack();
+	// frame.setVisible(true);
+	// }
 
 	// The data file contains two sections.
 	// The first section contains parameters used for configuring the graph.
