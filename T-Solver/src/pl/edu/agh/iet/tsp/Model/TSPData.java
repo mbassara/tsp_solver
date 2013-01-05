@@ -1,4 +1,4 @@
-package pl.edu.agh.iet.tsp_solver.Model;
+package pl.edu.agh.iet.tsp.Model;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;

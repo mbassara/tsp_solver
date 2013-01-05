@@ -1,4 +1,4 @@
-package pl.edu.agh.iet.tsp_solver.Model;
+package pl.edu.agh.iet.tsp.Model;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
