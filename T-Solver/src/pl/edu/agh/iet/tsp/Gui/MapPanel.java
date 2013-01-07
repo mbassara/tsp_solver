@@ -92,9 +92,7 @@ public class MapPanel extends JPanel {
 				// Image image = ImageIO
 				// .read(new File(
 				// "C:\\Users\\Madzia\\workspace\\T-Solver\\resources\\icon.png"));
-				Image image = ImageIO
-						.read(new File(
-								"C:\\Users\\Madzia\\workspace\\T-Solver\\resources\\icon.png"));
+				Image image = ImageIO.read(new File("resources\\icon.png"));
 				g2d.setPaint(Color.red);
 
 				for (int i = 0; i < num_points; i++) {
