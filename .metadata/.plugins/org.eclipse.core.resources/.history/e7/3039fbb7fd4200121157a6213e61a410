@@ -1,0 +1,15 @@
+package pl.edu.agh.iet.tsp_solver.BeeColonyAlgorithm;
+
+import java.lang.reflect.Array;
+
+
+public class Dance{
+	
+	public Array tour;
+	public float length;
+	public int duration;
+	
+	public Dance() {
+		// TODO Auto-generated constructor stub
+	}
+}

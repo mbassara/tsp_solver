@@ -1,0 +1,30 @@
+package pl.edu.agh.iet.tsp_solver.BeeColonyAlgorithm;
+
+import java.util.ArrayList;
+
+
+
+public class BCAlgorithm {
+
+	public class Dance{
+		
+		public ArrayList<int> tour;
+		public float length;
+		public int duration;
+		
+		public Dance() {
+			// TODO Auto-generated constructor stub
+		}
+	}
+	
+	
+	
+	public BCAlgorithm() {
+		// TODO Auto-generated constructor stub
+		lol = 19;
+	}
+	
+	public int lol;
+}
+
+

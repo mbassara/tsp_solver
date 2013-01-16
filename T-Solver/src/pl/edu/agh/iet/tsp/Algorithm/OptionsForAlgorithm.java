@@ -1,7 +1,8 @@
 package pl.edu.agh.iet.tsp.Algorithm;
 
 public class OptionsForAlgorithm {
-
+	
+	private int n;
 	private int bcmax;
 	private float gamma;
 	private float alpha;
@@ -59,5 +60,13 @@ public class OptionsForAlgorithm {
 
 	public void setTab(float[][] t) {
 		tab = t;
+	}
+
+	public int getN() {
+		return n;
+	}
+
+	public void setN(int n) {
+		this.n = n;
 	}
 }
