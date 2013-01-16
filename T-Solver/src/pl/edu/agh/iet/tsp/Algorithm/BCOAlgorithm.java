@@ -1,5 +1,7 @@
 package pl.edu.agh.iet.tsp.Algorithm;
 
+import java.util.ArrayList;
+
 import pl.edu.agh.iet.tsp.Model.TSPData;
 
 
@@ -8,22 +10,23 @@ public class BCOAlgorithm {
 	private OptionsForAlgorithm Params;
 	private TSPData Data;
 	
-	private BeeColony Colony;
+	//private BeeColony Colony;
 	
+	public ArrayList<Bee> Bees;
 	
 	
 	public BCOAlgorithm(OptionsForAlgorithm params, TSPData data) {
 		
 		this.Data  = data;
 		this.Params = params;
-		this.Colony = new BeeColony(params.getN());
 
 	}
 
 	public void InitializePopulation()
 	{
+		Bees = new ArrayList<Bee>();
 		for (int i = 0; i < Params.getN(); i++) {
-			Colony.Bees.add( new Bee(Colony, i) );
+			Bees.add( new Bee(i) );
 		}
 		
 	}
@@ -34,7 +37,7 @@ public class BCOAlgorithm {
 		InitializePopulation();
 		
 		for(int i = 0; i < Params.getN(); i++){
-			Colony.Bees.get(i).bzzbzz();
+			Bees.get(i).bzzbzz();
 		}
 		
 		int iterations = 0;
@@ -45,11 +48,11 @@ public class BCOAlgorithm {
 			
 			
 			
-			for(int i = 0; i < Colony.count; i++){
-				System.out.println("	Bee no. "+ Colony.Bees.get(i).id + " observes dance");
-				System.out.println("	Bee no. "+ Colony.Bees.get(i).id + " finds path");		
-				System.out.println("	Bee no. "+ Colony.Bees.get(i).id + " performs opt");	
-				System.out.println("	Bee no. "+ Colony.Bees.get(i).id + " performs dance");
+			for(int i = 0; i < Params.getN(); i++){
+				System.out.println("	Bee no. "+ Bees.get(i).id + " observes dance");
+				System.out.println("	Bee no. "+ Bees.get(i).id + " finds path");		
+				System.out.println("	Bee no. "+ Bees.get(i).id + " performs opt");	
+				System.out.println("	Bee no. "+ Bees.get(i).id + " performs dance");
 			}
 			
 			System.out.println("All bees completed tasks");
