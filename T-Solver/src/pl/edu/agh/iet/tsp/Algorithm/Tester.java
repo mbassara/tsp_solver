@@ -4,9 +4,9 @@ import pl.edu.agh.iet.tsp.Model.TSPData;
 
 public class Tester {
 
-	static BCOAlgorithm bcoalgorithm;
-	static OptionsForAlgorithm params;
-	static TSPData	tspdata;
+	static BCOAlgorithm 		bcoalgorithm;
+	static OptionsForAlgorithm 	params;
+	static TSPData				tspdata;
 
 	public Tester() {
 		// TODO Auto-generated constructor stub
@@ -32,7 +32,7 @@ public class Tester {
 
 
 		bcoalgorithm = new BCOAlgorithm(params, tspdata);
-		bcoalgorithm.RunBCO();
+		bcoalgorithm.runBCO();
 	}
 
 }

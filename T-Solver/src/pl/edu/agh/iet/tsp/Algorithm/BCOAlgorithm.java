@@ -8,50 +8,51 @@ import pl.edu.agh.iet.tsp.Model.TSPData;
 
 public class BCOAlgorithm {
 
-	public OptionsForAlgorithm Params;
-	public TSPData Data;
-	public BeeColony Colony;
 	
+	public OptionsForAlgorithm 	params;
+	public TSPData 				tspdata;
+	public BeeColony 			colony;
 	
-	public BCOAlgorithm(OptionsForAlgorithm params, TSPData data) {
-		this.Data  = data;
-		this.Params = params;
-	}
-
+	public int 					iteration;
 	
-	public void InitializePopulation()
-	{
-		Colony = new BeeColony(Params.getN(), this);
-	}
-	
-	
-	
-	public void RunBCO() {
-
-		InitializePopulation();
+	public BCOAlgorithm(OptionsForAlgorithm params, TSPData tspdata) {
+		this.tspdata  = tspdata;
+		this.params = params;
 		
-		for(int i = 0; i < Params.getN(); i++){
-			Colony.Bees.get(i).bzzbzz();
+		this.iteration = 0;
+	}
+
+	
+	public void initializePopulation() {
+		colony = new BeeColony(params.getN(), this);
+	}
+	
+	
+	
+	public void runBCO() {
+
+		initializePopulation();
+		
+		for(int i = 0; i < params.getN(); i++){
+			colony.bees.get(i).bzzbzz();
 		}
 		
-		int iterations = 0;
 		
 		/* iteration loop*/
-		while( iterations < Params.getBcmax() ){
-			iterations++;
-			System.out.println("Iteration "+ iterations);
+		while(iteration < params.getBcmax()) {
+			iteration++;
+			System.out.println("Iteration "+ iteration);
 			
-			
-			
-			for(int i = 0; i < Params.getN(); i++){
-				System.out.println("	Bee no. "+ Colony.Bees.get(i).id + " observes dance");
-				System.out.println("	Bee no. "+ Colony.Bees.get(i).id + " finds path");		
-				System.out.println("	Bee no. "+ Colony.Bees.get(i).id + " performs opt");	
-				System.out.println("	Bee no. "+ Colony.Bees.get(i).id + " performs dance");
+			for(int i = 0; i < params.getN(); i++){
+				System.out.println("	Bee no. "+ colony.bees.get(i).id + " observes dance");
+				System.out.println("	Bee no. "+ colony.bees.get(i).id + " finds path");		
+				System.out.println("	Bee no. "+ colony.bees.get(i).id + " performs opt");	
+				System.out.println("	Bee no. "+ colony.bees.get(i).id + " performs dance"); colony.bees.get(i).performDance();
 			}
 			
 			System.out.println("All bees completed tasks");
-				
+			colony.updateDancers();
+			colony.updateProfitability();
 		}
 		
 		

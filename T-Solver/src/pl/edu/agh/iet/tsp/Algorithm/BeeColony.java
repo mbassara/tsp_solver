@@ -4,32 +4,49 @@ import java.util.ArrayList;
 
 public class BeeColony {
 
-	private BCOAlgorithm algorithm;
+	public BCOAlgorithm 		algorithm;
 	
-	public ArrayList<Bee> Bees;
+	public ArrayList<Bee> 		bees;
+	public ArrayList<Dance> 	dancers;
 	
-	public int count;
-	public static float profitability;
+	public int 					count;
+	public static float 		profitability;
 	
 	
 	public BeeColony(int count, BCOAlgorithm algorithm) {
+		
 		this.count = count;
 		this.algorithm = algorithm;
 		
-		Bees = new ArrayList<Bee>();
+		bees = new ArrayList<Bee>();
 		for (int i = 0; i < count; i++) {
-			Bees.add( new Bee(i, this, algorithm.Params, algorithm.Data) );
+			bees.add( new Bee(i, this, algorithm.params, algorithm.tspdata) );
 		}
+		
+		dancers = new ArrayList<Dance>();
 	}
 	
 	
-	public void UpdateValues()	{
+	public void updateDancers(){
+		
+		ArrayList<Dance> dancing = new ArrayList<Dance>();
+		for (Dance dance : dancers) {
+			if (dance.duration > algorithm.iteration ){
+				dancing.add(dance);
+			}
+		}
+		dancers = dancing;
+	}
+	
+	
+	public void updateProfitability()	{
 		
 		profitability = 0;
 		for(int i = 0; i < count; i++){
-			profitability += Bees.get(i).profitability;
+			profitability += bees.get(i).profitability;
 		}
+		profitability = profitability / count;
 	}
 	
-	
 }
+
