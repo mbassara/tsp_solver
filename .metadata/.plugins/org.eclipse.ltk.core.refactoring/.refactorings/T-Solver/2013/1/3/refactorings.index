@@ -1,2 +1,6 @@
 1358368988920	Delete element
 1358370401006	Delete element
+1358371956040	Rename type 'ColonyData'
+1358372011281	Rename type 'BeeColonyData'
+1358372220690	Rename type 'BeeColonyValues'
+1358372252449	Rename field 'BCValues'
