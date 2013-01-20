@@ -1,4 +1,5 @@
 package pl.edu.agh.iet.tsp.Model;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -14,6 +15,8 @@ public class TSPData {
 	private double maxX = 0.0;
 	private double maxY = 0.0;
 	private final ArrayList<Field> nodes;
+	public ArrayList<ArrayList<Float>> graph;
+	
 
 	public TSPData(String name, String comment, int dimension,
 			Collection<Field> nodes) {
@@ -21,7 +24,8 @@ public class TSPData {
 		this.comment = comment;
 		this.dimension = dimension;
 		this.nodes = new ArrayList<Field>(nodes);
-
+		this.graph = new ArrayList<ArrayList<Float>>();
+		
 		if (nodes.size() > 0) {
 			ArrayList<Double> x = new ArrayList<Double>();
 			ArrayList<Double> y = new ArrayList<Double>();
@@ -106,5 +110,20 @@ public class TSPData {
 
 		return new TSPData(name, comment, dimension, fields);
 	}
+	
+	public void nodesToGraph(){
+		
+		for(int i = 0; i < dimension; i++){
+			graph.add(new ArrayList<Float>());
+			for(int j = 0; j < dimension; j++){
+				double dist = nodes.get(i).distance(nodes.get(j));
+				graph.get(i).add( new Float(dist));
+			}
+			
+		}
+		
+	}
 
 }
+
+
