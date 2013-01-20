@@ -14,7 +14,7 @@ public class TSPData {
 	private double minY = 0.0;
 	private double maxX = 0.0;
 	private double maxY = 0.0;
-	private final ArrayList<Field> nodes;
+	private ArrayList<Field> nodes;
 	public ArrayList<ArrayList<Float>> graph;
 	
 
@@ -69,7 +69,7 @@ public class TSPData {
 		return minY;
 	}
 
-	public Collection<Field> getNodes() {
+	public ArrayList<Field> getNodes() {
 		return nodes;
 	}
 

@@ -1,7 +1,5 @@
 package pl.edu.agh.iet.tsp.Algorithm;
 
-import java.util.ArrayList;
-
 import pl.edu.agh.iet.tsp.Model.TSPData;
 
 
@@ -25,22 +23,17 @@ public class BCOAlgorithm {
 
 	
 	public void initializePopulation() {
-		colony = new BeeColony(params.getN(), this);
+		colony = new BeeColony(params.n, this);
 	}
-	
 	
 	
 	public void runBCO() {
 
 		initializePopulation();
 		
-		for(int i = 0; i < params.getN(); i++){
+		for(int i = 0; i < params.n; i++){
 			colony.bees.get(i).bzzbzz();
 		}
-		
-		
-		/* iteration loop*/
-		
 		
 		iteration++;
 		for(int i = 0; i < params.n; i++){
@@ -50,31 +43,29 @@ public class BCOAlgorithm {
 		colony.updateDancers();
 		colony.updateProfitability();
 		
+		//System.out.println("Iteration "+ colony.profitability);
+		
 		while(iteration < params.getBcmax()) {
 			iteration++;
 			System.out.println("Iteration "+ iteration);
 			
-			for(int i = 0; i < params.getN(); i++){
+			for(int i = 0; i < params.n; i++){
 				colony.bees.get(i).observeDance();
 				colony.bees.get(i).findPath();
-				//System.out.println("	Bee no. "+ colony.bees.get(i).id + " performs opt");
-				colony.bees.get(i).updateProfitability();
-				colony.bees.get(i).performDance();
+				colony.bees.get(i).updateProfitabilityAndPerformDance();
 			}
 			
-			//System.out.println("All bees completed tasks");
 			colony.updateDancers();
 			colony.updateProfitability();
 			
-			System.out.println("COLONY PROF:" +  colony.profitability);
+			//System.out.println("COLONY PROF:" +  colony.profitability);
 		}
-		
-		
-	
-		
-		
+		//System.out.println("MAX TOUR:" +  colony.min_dance.path.toString() + " len: " + colony.min_dance.length);
 	}
 	
+	public Result getResult(){
+		return new Result(iteration, colony.min_dance.path, colony.min_dance.tour_length);
+	}
 	
 }
 

@@ -53,7 +53,7 @@ public class ProgressBar extends JPanel implements ActionListener,
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if ("progress" == evt.getPropertyName()) {
+		if ("progress".equals(evt.getPropertyName())) {
 			int progress = (Integer) evt.getNewValue();
 			progressBar.setValue(progress);
 		}

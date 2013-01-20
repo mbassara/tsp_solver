@@ -10,8 +10,9 @@ public class BeeColony {
 	public ArrayList<Dance> 	dancers;
 	
 	public int 					count;
-	public float 		profitability;
+	public float 				profitability;
 	
+	public Dance				min_dance;
 	
 	public BeeColony(int count, BCOAlgorithm algorithm) {
 		
@@ -24,6 +25,7 @@ public class BeeColony {
 		}
 		
 		dancers = new ArrayList<Dance>();
+		min_dance = new Dance(new ArrayList<Integer>(), 10000.0, 0.0);
 	}
 	
 	
@@ -34,6 +36,9 @@ public class BeeColony {
 			if (dance.duration > 0 ){
 				dance.duration -= 1;
 				dancing.add(dance);
+			}
+			if (dance.tour_length < min_dance.tour_length){
+				min_dance = dance;
 			}
 		}
 		dancers = dancing;

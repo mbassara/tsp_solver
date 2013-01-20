@@ -24,10 +24,10 @@ public class Tester {
 		
 		params = new OptionsForAlgorithm();
 		params.setN(10);
-		params.setBcmax(100000);
+		params.setBcmax(200);
 		params.setAlpha(1.0F);
 		params.setBeta(10.0F);
-		params.setGamma(0.95F);
+		params.setGamma(0.8F);
 		params.setK(100);
 
 		float t[][] = new float[5][3];
@@ -40,6 +40,16 @@ public class Tester {
 
 		bcoalgorithm = new BCOAlgorithm(params, tspdata);
 		bcoalgorithm.runBCO();
+		Result res = bcoalgorithm.getResult();
+		
+		int index = 0;
+		System.out.print("BEST TOUR FOUND: " + index);
+		for(int i = 0; i < res.path.size(); i++){
+			index = res.path.get(index);
+			System.out.print(" " + index);
+		}
+		System.out.print(" length: " + res.tour_length + "\n");
+		//System.out.println("results" +  res.path.toString() + " " + res.tour_length);
 	}
 
 }
