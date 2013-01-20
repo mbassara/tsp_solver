@@ -2,16 +2,16 @@ package pl.edu.agh.iet.tsp.Algorithm;
 
 public class OptionsForAlgorithm {
 
-	private int n;
-	private int bcmax;
-	private float gamma;
-	private float alpha;
-	private float beta;
-	private float k;
-	private float[][] tab;
+	public int n;
+	public int bcmax;
+	public float gamma;
+	public float alpha;
+	public float beta;
+	public float k;
+	public float[][] tab;
 
 	public OptionsForAlgorithm() {
-		tab = new float[3][5];
+		tab = new float[5][3];
 	}
 
 	public int getBcmax() {

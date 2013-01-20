@@ -31,7 +31,8 @@ public class BeeColony {
 		
 		ArrayList<Dance> dancing = new ArrayList<Dance>();
 		for (Dance dance : dancers) {
-			if (dance.duration > algorithm.iteration ){
+			if (dance.duration > 0 ){
+				dance.duration -= 1;
 				dancing.add(dance);
 			}
 		}

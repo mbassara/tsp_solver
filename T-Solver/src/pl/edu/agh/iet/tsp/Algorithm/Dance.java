@@ -6,11 +6,11 @@ import java.util.ArrayList;
 public class Dance {
 	
 	public ArrayList<Integer> path;
-	int duration;
+	float duration;
 	
-	public Dance(ArrayList<Integer> path, int duration) {
+	public Dance(ArrayList<Integer> path, float dance_duration) {
 		this.path = path;
-		this.duration = duration;
+		this.duration = dance_duration;
 	}
 
 }
