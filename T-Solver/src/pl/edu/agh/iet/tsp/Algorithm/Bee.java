@@ -26,6 +26,7 @@ public class Bee {
 	public ArrayList<Integer>  		max_path_found;
 	
 	public int 						iteration;
+	private int withoutdance;
 	
 	public Bee(int id, BeeColony colony, OptionsForAlgorithm algparams, TSPData tspdata) {
 		
@@ -35,8 +36,9 @@ public class Bee {
 		this.algparams = algparams;
 		
 		this.follow_dance = false;
-		
+		this.max_tour_length = 0.0;
 		this.iteration = 0;
+		this.withoutdance = 0;
 	}
 
 	public void bzzbzz(){
@@ -46,35 +48,45 @@ public class Bee {
 	public void updateProfitability(){
 		
 		profitability = 1 / tour_length;
-		if (profitability > max_profitability){
+		//System.out.println("curr prof:"+ profitability + " max_prof" + max_profitability);
+		if (profitability >= max_profitability){
 			max_profitability = profitability;
 			max_path_found = path_found;
 			max_tour_length = tour_length;
-		}	
+		}else
+		{
+			this.withoutdance++;
+			if(withoutdance > 10)
+			{
+				max_profitability = 0.9 * max_profitability;
+			}
+		}
 
 	}
 	
 	public void observeDance(){
 		
-		//System.out.println("	Bee no. "+ id + " observes dance");
+		//System.out.print("	Bee no. "+ id + " observes dance ");
 		
 		double pfollow_index =  profitability / colony.profitability;
 		double pfollow;
 		Dance dance;
+		//System.out.print("profitability: " + profitability + " colony.profitability: " + colony.profitability + " pfollow_index: " + pfollow_index );
 		
-		if(algparams.tab[0][0] < pfollow_index && pfollow_index < algparams.tab[0][1]){
-			pfollow = algparams.tab[0][1];
-		} else if(algparams.tab[1][0] < pfollow_index && pfollow_index < algparams.tab[1][1]){
-			pfollow = algparams.tab[1][1];
-		} else if(algparams.tab[2][0] < pfollow_index && pfollow_index < algparams.tab[2][1]){
-			pfollow = algparams.tab[2][1];
-		} else if(algparams.tab[3][0] < pfollow_index && pfollow_index < algparams.tab[3][1]){
-			pfollow = algparams.tab[3][1];
+		if(algparams.tab[0][0] < pfollow_index && pfollow_index <= algparams.tab[0][1]){
+			pfollow = algparams.tab[0][2];
+		} else if(algparams.tab[1][0] < pfollow_index && pfollow_index <= algparams.tab[1][1]){
+			pfollow = algparams.tab[1][2];
+		} else if(algparams.tab[2][0] < pfollow_index && pfollow_index <= algparams.tab[2][1]){
+			pfollow = algparams.tab[2][2];
+		} else if(algparams.tab[3][0] < pfollow_index && pfollow_index <= algparams.tab[3][1]){
+			pfollow = algparams.tab[3][2];
 		} else{
-			pfollow = 0;
+			pfollow = 0.0;
 		}
 
-				
+		//System.out.println(" pfollow: " + pfollow);		
+		
 		Random rand = new Random();
 		
 		if (rand.nextFloat() < pfollow){
@@ -84,9 +96,12 @@ public class Bee {
 			this.follow_dance = false;
 		}
 		
-		if(this.follow_dance){
+		if(this.follow_dance && colony.dancers.size() > 0){
 			dance = colony.dancers.get( rand.nextInt(colony.dancers.size()) );
 			this.prefered_path = dance.path;
+		}
+		else{
+			this.follow_dance = false;
 		}
 
 	}
@@ -94,14 +109,13 @@ public class Bee {
 
 	
 	public void performDance(){
-		//System.out.println("	Bee no. "+ id + " performs dance"); 
+		
 		
 		if (this.profitability >= this.max_profitability){
-			
+			//System.out.print("perform dance ");
 			dance_duration = algparams.k * this.profitability / colony.profitability;
 			Dance dance = new Dance(this.path_found, this.dance_duration);
 			colony.dancers.add(dance);
-			
 		}
 	}
 	
@@ -125,19 +139,22 @@ public class Bee {
 		
 		
 		/* set A F set*/
+		for(int n = 0; n <= algparams.n; n++)
+		{
+			A_set.add(n);  		
+		}
+			
+		//System.out.println("PATH SEARCHING\n");
+		
+		//System.out.println("prefered_path: " + this.prefered_path.toString());
+		
 		for(int n = 0; n < algparams.n; n++)
 		{
-			A_set.add(n+1);  		
-		}
-		
-		if(this.follow_dance){
-			F_set = prefered_path;
-		}
-		
-		
-		
-		for(int n = 0; n < algparams.n; n++)
-		{
+			//System.out.println("current city: " + current_city);
+			A_set.remove(new Integer(current_city));
+			//System.out.println("allowed cities: " + A_set.toString());
+			
+			
 			int pref_city;
 			int allowed_and_prefered;
 			
@@ -155,6 +172,7 @@ public class Bee {
 			}else{
 				allowed_and_prefered = 0;
 			}
+			
 			
 			
 			/* calculate Pij_n*/
@@ -183,11 +201,19 @@ public class Bee {
 			}
 			
 			//System.out.print(tspdata.graph.toString());
-			//System.out.println(Phi_set.size());
+			//System.out.println("Phi_set :" + Phi_set.toString());
 			
 			for(int j = 0; j < A_set.size(); j++){
 				//Phi_set.get(j);
-				 P_set.add( Math.pow(Phi_set.get(j), algparams.alpha) * Math.pow((1.0 / tspdata.graph.get(current_city).get(j)), algparams.beta));
+				double dist = 1.0;
+				
+				if (current_city == 0){
+					dist = 1.0;
+				}else{
+					dist = tspdata.graph.get(current_city-1).get(A_set.get(j)-1);
+				}
+				//System.out.println("dist current_city to A_set.get(" +j+ ") " + current_city +" " +A_set.get(j) + " " + dist);
+				P_set.add( Math.pow(Phi_set.get(j), algparams.alpha) * Math.pow(1.0 / dist , algparams.beta));
 					
 			}
 			double psetsum = 0.0;
@@ -197,12 +223,14 @@ public class Bee {
 			for(int i = 0; i < A_set.size(); i++){
 				 P_set.set(i, P_set.get(i) / psetsum );	
 			}
-				
+			//System.out.println("P_set: " + P_set.toString());	
 				
 			int next_city_index = choose_next_city(P_set);
 			
 			next_city = A_set.get(next_city_index);
+			//System.out.println("next city:" + next_city);
 			
+			A_set.remove(next_city_index);
 			
 			path.set(current_city, next_city);
 			if (current_city * next_city != 0)
@@ -214,6 +242,8 @@ public class Bee {
 			//System.out.println(path.toString() + " next: " + next_city + " curr: " + current_city + " length " + tour_length);
 			
 			current_city = next_city;
+			//System.out.println(" \n ");
+			
 		}
 		
 		this.path_found = path;
@@ -221,8 +251,17 @@ public class Bee {
 		
 	
 		
-		System.out.print("	Bee no. "+ id + " looking for path, iteration " + iteration); 
-		System.out.println(" path found" + path.toString());
+		//System.out.print("	Bee no. "+ id + " looking for path, iteration " + iteration); 
+		//System.out.print(" " + path.toString());
+		
+		int index = 0;
+		//System.out.print("	path found: " + index);
+		for(int i = 0; i < path_found.size(); i++){
+			index = path_found.get(index);
+			//System.out.print(" " + index);
+		}
+		//System.out.print(" length: " + tour_length);
+		//System.out.print(" \n" + index);
 	}
 	
 	

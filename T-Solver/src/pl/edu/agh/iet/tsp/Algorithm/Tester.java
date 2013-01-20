@@ -24,12 +24,18 @@ public class Tester {
 		
 		params = new OptionsForAlgorithm();
 		params.setN(10);
-		params.setBcmax(1);
-		params.setAlpha((float) 0.3);
-		params.setBeta((float) 0.9);
-		params.setGamma((float) 1.0);
+		params.setBcmax(100000);
+		params.setAlpha(1.0F);
+		params.setBeta(10.0F);
+		params.setGamma(0.95F);
+		params.setK(100);
 
-
+		float t[][] = new float[5][3];
+		t[0][0] = 0; t[0][1] = 0.95F; t[0][2] = 0.8F;
+		t[1][0] = 0.95F; t[1][1] = 0.975F; t[1][2] = 0.2F;
+		t[2][0] = 0.975F; t[2][1] = 0.99F; t[2][2] = 0.02F;
+		t[3][0] = 0.99F; t[3][1] = 100.0F; t[3][2] = 0.0F;
+		params.setTab(t);
 
 
 		bcoalgorithm = new BCOAlgorithm(params, tspdata);
