@@ -20,6 +20,7 @@ public class BCOAlgorithm {
 		this.params = params;
 		
 		this.iteration = 0;
+		
 	}
 
 	
@@ -46,7 +47,7 @@ public class BCOAlgorithm {
 			for(int i = 0; i < params.getN(); i++){
 				colony.bees.get(i).observeDance();
 				colony.bees.get(i).findPath();
-				System.out.println("	Bee no. "+ colony.bees.get(i).id + " performs opt");	
+				//System.out.println("	Bee no. "+ colony.bees.get(i).id + " performs opt");	
 				colony.bees.get(i).performDance();
 			}
 			

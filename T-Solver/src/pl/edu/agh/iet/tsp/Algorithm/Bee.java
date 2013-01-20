@@ -12,18 +12,18 @@ public class Bee {
 	private OptionsForAlgorithm 	algparams;
 	
 	public int 						id;
-	public float 					profitability;
-	public float 					max_profitability;
+	public double 					profitability;
+	public double 					max_profitability;
 	
 	private ArrayList<Integer>  	path_found; 
-	public float 					tour_length;
-	public float 					dance_duration;
+	public double 					tour_length;
+	public double 					dance_duration;
 	
 	private boolean					follow_dance;
 	private ArrayList<Integer>  	prefered_path;
 	
-	public float					max_tour_length;
-	public ArrayList<Integer>  		max_tour_found;
+	public double					max_tour_length;
+	public ArrayList<Integer>  		max_path_found;
 	
 	public int 						iteration;
 	
@@ -48,16 +48,18 @@ public class Bee {
 		profitability = 1 / tour_length;
 		if (profitability > max_profitability){
 			max_profitability = profitability;
+			max_path_found = path_found;
+			max_tour_length = tour_length;
 		}	
 
 	}
 	
 	public void observeDance(){
 		
-		System.out.println("	Bee no. "+ id + " observes dance");
+		//System.out.println("	Bee no. "+ id + " observes dance");
 		
-		float pfollow_index =  profitability / colony.profitability;
-		float pfollow;
+		double pfollow_index =  profitability / colony.profitability;
+		double pfollow;
 		Dance dance;
 		
 		if(algparams.tab[0][0] < pfollow_index && pfollow_index < algparams.tab[0][1]){
@@ -92,7 +94,7 @@ public class Bee {
 
 	
 	public void performDance(){
-		System.out.println("	Bee no. "+ id + " performs dance"); 
+		//System.out.println("	Bee no. "+ id + " performs dance"); 
 		
 		if (this.profitability >= this.max_profitability){
 			
@@ -110,31 +112,139 @@ public class Bee {
 		this.iteration++;
 		
 		int current_city = 0;
+		int next_city = 0;
+		double tour_length = 0;
+		
 		ArrayList<Integer> path = new ArrayList<Integer>();
+		for(int i = 0; i <= algparams.n ;i++){
+			path.add(0);
+		}
 		
 		ArrayList<Integer> A_set = new ArrayList<Integer>();
 		ArrayList<Integer> F_set = new ArrayList<Integer>();
 		
+		
+		/* set A F set*/
 		for(int n = 0; n < algparams.n; n++)
 		{
 			A_set.add(n+1);  		
 		}
 		
-		for(int n = 0; n < algparams.n; n++)
-		{
-						
+		if(this.follow_dance){
+			F_set = prefered_path;
 		}
 		
 		
+		
+		for(int n = 0; n < algparams.n; n++)
+		{
+			int pref_city;
+			int allowed_and_prefered;
+			
+			ArrayList<Double> Phi_set = new ArrayList<Double>();
+			ArrayList<Double> P_set = new ArrayList<Double>();
+			
+			if(follow_dance){
+				pref_city = this.prefered_path.get(current_city);
+			}else{
+				pref_city = -1;
+			}
+			
+			if(A_set.contains(pref_city)){
+				allowed_and_prefered = pref_city;
+			}else{
+				allowed_and_prefered = 0;
+			}
+			
+			
+			/* calculate Pij_n*/
+			for (int i = 0; i < A_set.size(); i++) {
+				
+				double ro_ijn;
+				
+				if(A_set.size() == 1){
+					ro_ijn = 1.0;
+				}else{
+					
+					if (allowed_and_prefered != 0){
+						
+						if(A_set.get(i) == pref_city){
+							ro_ijn = algparams.gamma; 
+						}else{
+							ro_ijn = (1.0 - algparams.gamma) / A_set.size();
+						}
+						
+					}else{
+						ro_ijn = 1.0 / A_set.size();
+					}				
+				}
+				Phi_set.add(ro_ijn);
+				
+			}
+			
+			//System.out.print(tspdata.graph.toString());
+			//System.out.println(Phi_set.size());
+			
+			for(int j = 0; j < A_set.size(); j++){
+				//Phi_set.get(j);
+				 P_set.add( Math.pow(Phi_set.get(j), algparams.alpha) * Math.pow((1.0 / tspdata.graph.get(current_city).get(j)), algparams.beta));
+					
+			}
+			double psetsum = 0.0;
+			for(int i = 0; i < A_set.size(); i++){
+				psetsum += P_set.get(i);		
+			}
+			for(int i = 0; i < A_set.size(); i++){
+				 P_set.set(i, P_set.get(i) / psetsum );	
+			}
+				
+				
+			int next_city_index = choose_next_city(P_set);
+			
+			next_city = A_set.get(next_city_index);
+			
+			
+			path.set(current_city, next_city);
+			if (current_city * next_city != 0)
+			{
+				tour_length += tspdata.graph.get(current_city-1).get(next_city-1);
+			}
+			
+			
+			//System.out.println(path.toString() + " next: " + next_city + " curr: " + current_city + " length " + tour_length);
+			
+			current_city = next_city;
+		}
+		
+		this.path_found = path;
+		this.tour_length = tour_length;
+		
 	
 		
-		System.out.println("	Bee no. "+ id + " looking for path, iteration " + iteration); 
-		
+		System.out.print("	Bee no. "+ id + " looking for path, iteration " + iteration); 
+		System.out.println(" path found" + path.toString());
 	}
 	
 	
-	
-	
+	private int choose_next_city(ArrayList<Double> p_set){
+		Random rand = new Random();
+		double r = rand.nextDouble();
+		ArrayList<Double> prob = new ArrayList<Double>();
+		
+		double sum = 0;
+		for(int i = 0; i < p_set.size(); i++)
+		{
+			sum += p_set.get(i);
+			prob.add(sum);
+		}
+		int i = 0;
+		while(r < prob.size() * 1.0  &&  prob.get(i) < r){
+			//System.out.println(prob.get(i));
+			i++;
+		}
+		
+		return i;
+	}
 	
 
 }

@@ -20,10 +20,11 @@ public class Tester {
 		/*sample options*/
 
 		tspdata = TSPData.generateData("test", null, 10, 100);
-
+		tspdata.nodesToGraph();
+		
 		params = new OptionsForAlgorithm();
 		params.setN(10);
-		params.setBcmax(13);
+		params.setBcmax(1);
 		params.setAlpha((float) 0.3);
 		params.setBeta((float) 0.9);
 		params.setGamma((float) 1.0);

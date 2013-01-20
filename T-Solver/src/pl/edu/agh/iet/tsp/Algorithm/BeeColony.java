@@ -10,7 +10,7 @@ public class BeeColony {
 	public ArrayList<Dance> 	dancers;
 	
 	public int 					count;
-	public static float 		profitability;
+	public float 		profitability;
 	
 	
 	public BeeColony(int count, BCOAlgorithm algorithm) {
