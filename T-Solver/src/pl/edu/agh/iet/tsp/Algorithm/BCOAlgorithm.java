@@ -30,11 +30,7 @@ public class BCOAlgorithm {
 	public void runBCO() {
 
 		initializePopulation();
-		
-		for(int i = 0; i < params.n; i++){
-			colony.bees.get(i).bzzbzz();
-		}
-		
+				
 		iteration++;
 		for(int i = 0; i < params.n; i++){
 			colony.bees.get(i).findPath();
@@ -42,12 +38,9 @@ public class BCOAlgorithm {
 		}
 		colony.updateDancers();
 		colony.updateProfitability();
-		
-		//System.out.println("Iteration "+ colony.profitability);
-		
+				
 		while(iteration < params.getBcmax()) {
 			iteration++;
-			System.out.println("Iteration "+ iteration);
 			
 			for(int i = 0; i < params.n; i++){
 				colony.bees.get(i).observeDance();
@@ -58,9 +51,7 @@ public class BCOAlgorithm {
 			colony.updateDancers();
 			colony.updateProfitability();
 			
-			//System.out.println("COLONY PROF:" +  colony.profitability);
 		}
-		//System.out.println("MAX TOUR:" +  colony.min_dance.path.toString() + " len: " + colony.min_dance.length);
 	}
 	
 	public Result getResult(){
