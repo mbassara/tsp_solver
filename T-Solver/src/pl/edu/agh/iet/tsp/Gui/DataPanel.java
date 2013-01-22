@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -38,8 +37,8 @@ public class DataPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				Data newData = new Data(mainFrame);
-				TSPData tspData = TSPData.generateData("random data", "comment",
-						10, 10000);
+				TSPData tspData = TSPData.generateData("random data",
+						"comment", 10, 10000);
 				newData.readData(tspData);
 				mapPanel.setDataPanel(newData);
 				mapPanel.setDisplayPlot(true);
@@ -60,14 +59,14 @@ public class DataPanel extends JPanel {
 				JPanel filePanel = new JPanel();
 				// JFileChooser fileChooser = new
 				// JFileChooser(System.getProperty("user.dir"));
-				JFileChooser fileChooser = new JFileChooser();
+				JFileChooser fileChooser = new JFileChooser(".");
 				fileFrame.getContentPane().add(filePanel);
 				filePanel.add(fileChooser);
 				fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 				int result = fileChooser.showOpenDialog(filePanel);
 				if (result != JFileChooser.APPROVE_OPTION) {
 					System.out.println("No file selected");
-				
+
 					return;
 				}
 
