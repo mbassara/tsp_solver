@@ -38,7 +38,7 @@ public class DataPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				Data newData = new Data(mainFrame);
 				TSPData tspData = TSPData.generateData("random data",
-						"comment", 20, 1000);
+						"comment", 10, 10000);
 				newData.readData(tspData);
 				mapPanel.setDataPanel(newData);
 				mapPanel.setDisplayPlot(true);

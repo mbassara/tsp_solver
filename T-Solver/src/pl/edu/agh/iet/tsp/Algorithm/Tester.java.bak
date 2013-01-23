@@ -12,7 +12,15 @@ public class Tester {
 		// TODO Auto-generated constructor stub
 	}
 
-	public static OptionsForAlgorithm generateOptionsForAlgorithm(){
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+
+		/*sample options*/
+
+		tspdata = TSPData.generateData("test", null, 10, 100);
+		tspdata.nodesToGraph();
 		
 		params = new OptionsForAlgorithm();
 		params.setN(10);
@@ -28,18 +36,7 @@ public class Tester {
 		t[2][0] = 0.975F; t[2][1] = 0.99F; t[2][2] = 0.02F;
 		t[3][0] = 0.99F; t[3][1] = 100.0F; t[3][2] = 0.0F;
 		params.setTab(t);
-		return params;
-	}
-	
-	public static void main(String[] args) 
-	{
 
-		/*sample options*/
-
-		tspdata = TSPData.generateData("test", null, 10, 100);
-		tspdata.nodesToGraph();
-
-		OptionsForAlgorithm params = generateOptionsForAlgorithm();
 
 		bcoalgorithm = new BCOAlgorithm(params, tspdata);
 		bcoalgorithm.runBCO();

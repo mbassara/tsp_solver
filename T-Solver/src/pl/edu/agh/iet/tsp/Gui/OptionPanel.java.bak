@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -17,7 +18,6 @@ import net.java.dev.designgridlayout.DesignGridLayout;
 import net.java.dev.designgridlayout.LabelAlignment;
 import pl.edu.agh.iet.tsp.Algorithm.OptionsForAlgorithm;
 import pl.edu.agh.iet.tsp.Algorithm.RunAlgorithm;
-import pl.edu.agh.iet.tsp.Algorithm.Tester;
 import pl.edu.agh.iet.tsp.Model.TSPData;
 import pl.edu.agh.iet.tsp.Model.TSPDataSerialization;
 
@@ -26,10 +26,14 @@ public class OptionPanel extends JPanel {
 	ProgressBar progress;
 	JFrame mainFrame;
 	MapPanel mapPanel;
-
-	private double[][] defaultValue = { { 0.0, 0.95, 0.8 },
-			{ 0.95, 0.975, 0.2 }, { 0.975, 0.99, 0.02 }, { 0.99, 1.0, 0.0 },
-			{ 0.0, 0.0, 0.0 } };
+	
+	private double[][] defaultValue= {
+			{ 0.0, 0.95, 0.8},
+			{ 0.95, 0.975, 0.2},
+			{ 0.975, 0.99, 0.02},
+			{ 0.99, 1.0, 0.0},
+			{ 0.0, 0.0, 0.0}
+	};
 
 	public OptionPanel(JFrame _mainFrame, MapPanel _mapPanel) {
 		super(new BorderLayout());
@@ -52,12 +56,13 @@ public class OptionPanel extends JPanel {
 		final JTextField gamma = new JTextField();
 		final JTextField k = new JTextField();
 		final JTextField beta = new JTextField();
-
+		
 		bcmax.setText("13");
 		alpha.setText("0.3");
 		beta.setText("0.9");
 		gamma.setText("1.0");
 		k.setText("0.4");
+		
 
 		layout.row().grid(bcmaxLabel).add(bcmax);
 		layout.row().grid(alphaLabel).add(alpha);
@@ -67,23 +72,23 @@ public class OptionPanel extends JPanel {
 
 		layout.emptyRow();
 
-		// JComboBox opt = new JComboBox();
-		// opt.addItem("option 1");
-		// opt.addItem("option 2");
-		// opt.addActionListener(new ActionListener() {
-		//
-		// @Override
-		// public void actionPerformed(ActionEvent a) {
-		//
-		// if (((JComboBox) a.getSource()).getSelectedItem().equals(
-		// "option 1"))
-		// alpha.setText("11");
-		// beta.setText("11");
-		// k.setText("11");
-		//
-		// }
-		// });
-		// layout.row().grid(new JLabel("options")).add(opt);
+		JComboBox opt = new JComboBox();
+		opt.addItem("option 1");
+		opt.addItem("option 2");
+		opt.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent a) {
+
+				if (((JComboBox) a.getSource()).getSelectedItem().equals(
+						"option 1"))
+					alpha.setText("11");
+				beta.setText("11");
+				k.setText("11");
+
+			}
+		});
+		layout.row().grid(new JLabel("options")).add(opt);
 
 		final JTextField a1 = new JTextField();
 		final JTextField a2 = new JTextField();
@@ -100,7 +105,7 @@ public class OptionPanel extends JPanel {
 		final JTextField c3 = new JTextField();
 		final JTextField c4 = new JTextField();
 		final JTextField c5 = new JTextField();
-
+		
 		a1.setText(Double.toString(defaultValue[0][0]));
 		a2.setText(Double.toString(defaultValue[1][0]));
 		a3.setText(Double.toString(defaultValue[2][0]));
@@ -116,9 +121,10 @@ public class OptionPanel extends JPanel {
 		c3.setText(Double.toString(defaultValue[2][2]));
 		c4.setText(Double.toString(defaultValue[3][2]));
 		c5.setText(Double.toString(defaultValue[4][2]));
+		
 
-		layout.row().grid(3).grid(new JLabel("")).grid(new JLabel(""))
-				.grid(new JLabel(""));
+		layout.row().grid(3).grid(new JLabel("adasdlb")).grid(new JLabel("hasdasdb"))
+				.grid(new JLabel("p"));
 		layout.row().grid(new JLabel("1")).grid().add(a1).add(b1).add(c1);
 		layout.row().grid(new JLabel("2")).grid().add(a2).add(b2).add(c2);
 		layout.row().grid(new JLabel("3")).grid().add(a3).add(b3).add(c3);
@@ -142,21 +148,18 @@ public class OptionPanel extends JPanel {
 				OptionsForAlgorithm optionsForAlgorithm = new OptionsForAlgorithm();
 
 				if (!bcmax.getText().equals(""))
-					optionsForAlgorithm.setBcmax(Integer.parseInt(bcmax
-							.getText()));
+					optionsForAlgorithm.setBcmax(Integer.parseInt(bcmax.getText()));
 				if (!alpha.getText().equals(""))
-					optionsForAlgorithm.setAlpha(Float.parseFloat(alpha
-							.getText()));
+					optionsForAlgorithm.setAlpha(Float.parseFloat(alpha.getText()));
 				if (!beta.getText().equals(""))
-					optionsForAlgorithm.setBeta(Float.parseFloat(beta.getText()));
+					optionsForAlgorithm.setAlpha(Float.parseFloat(beta.getText()));
 				if (!gamma.getText().equals(""))
-					optionsForAlgorithm.setGamma(Float.parseFloat(gamma
-							.getText()));
+					optionsForAlgorithm.setGamma(Float.parseFloat(gamma.getText()));
 				if (!k.getText().equals(""))
-					optionsForAlgorithm.setK(Float.parseFloat(k.getText()));
+					optionsForAlgorithm.setAlpha(Float.parseFloat(k.getText()));
 
 				float[][] t = new float[5][3];
-
+				
 				if (!a1.getText().equals(""))
 					t[0][0] = Float.parseFloat(a1.getText());
 				if (!a2.getText().equals(""))
@@ -192,26 +195,12 @@ public class OptionPanel extends JPanel {
 
 				optionsForAlgorithm.setTab(t);
 
-				optionsForAlgorithm.setN(mapPanel.data.tspdata.getNodes()
-						.size());
-
-				// TSPData generatedTSPData = TSPData.generateData("test", null,
-				// 10, 100);
-				//
-				// generatedTSPData.nodesToGraph();
-				OptionsForAlgorithm params = Tester
-						.generateOptionsForAlgorithm();
-
-				// System.out.println(optionsForAlgorithm);
-
-				mapPanel.data.tspdata.nodesToGraph();
 				TSPData result = RunAlgorithm.runAlgoThread(
 						optionsForAlgorithm, mapPanel.data.tspdata);
-
+				
 				mapPanel.data.tspdata = result;
-				System.out.println(result);
 				mapPanel.data.readData(result);
-
+				
 				// optionsForAlgorithm - opcje algorytmu
 				// MapPanel.data - dane wejsciowe
 				// TODO ALGORYTM
@@ -220,7 +209,10 @@ public class OptionPanel extends JPanel {
 				// punktami ( w kolejnosci odwiedzania ) i ogolny wynik
 				// rozwiazania
 				//
-
+		
+				
+				
+				
 				int sol = 653;
 				JLabel solution = new JLabel("Total Solution: " + sol);
 				mainFrame.getContentPane().add(solution, BorderLayout.SOUTH);
@@ -230,6 +222,7 @@ public class OptionPanel extends JPanel {
 				task.execute();
 
 				mapPanel.setSolution(true);
+				System.out.println("save.setVisible(true)");
 				save.setVisible(true);
 				mainFrame.repaint();
 			}

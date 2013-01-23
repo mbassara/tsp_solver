@@ -69,15 +69,4 @@ public class OptionsForAlgorithm {
 	public void setN(int n) {
 		this.n = n;
 	}
-	
-	public String toString(){
-		return "n = " + n +
-		"\nbcmax = " + bcmax +
-		"\ngamma = " + gamma +
-		"\nalpha = " + alpha +
-		"\nbeta = " + beta +
-		"\nk = " + k;
-	}
-	
-	
 }

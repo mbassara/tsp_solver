@@ -14,11 +14,4 @@ public class Result {
 		this.tour_length = length;
 	}
 	
-	public String toString(){
-		String result = "lista intow z result:\n";
-		for(Integer i : path)
-			result += i.toString() + " ";
-		return result;
-	}
-	
 }

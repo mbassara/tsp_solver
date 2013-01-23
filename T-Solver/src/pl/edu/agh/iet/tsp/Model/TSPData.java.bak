@@ -1,5 +1,5 @@
 package pl.edu.agh.iet.tsp.Model;
-
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -16,6 +16,7 @@ public class TSPData {
 	private double maxY = 0.0;
 	private ArrayList<Field> nodes;
 	public ArrayList<ArrayList<Float>> graph;
+	
 
 	public TSPData(String name, String comment, int dimension,
 			Collection<Field> nodes) {
@@ -24,7 +25,7 @@ public class TSPData {
 		this.dimension = dimension;
 		this.nodes = new ArrayList<Field>(nodes);
 		this.graph = new ArrayList<ArrayList<Float>>();
-
+		
 		if (nodes.size() > 0) {
 			ArrayList<Double> x = new ArrayList<Double>();
 			ArrayList<Double> y = new ArrayList<Double>();
@@ -51,30 +52,25 @@ public class TSPData {
 	public int getDimension() {
 		return dimension;
 	}
-
+	
 	public double getMaxX() {
 		return maxX;
 	}
-
+	
 	public double getMaxY() {
 		return maxY;
 	}
-
+	
 	public double getMinX() {
 		return minX;
 	}
-
+	
 	public double getMinY() {
 		return minY;
 	}
 
 	public ArrayList<Field> getNodes() {
 		return nodes;
-	}
-
-	public void setNodes(ArrayList<Field> newNodes) {
-		nodes = newNodes;
-		nodesToGraph();
 	}
 
 	@Override
@@ -114,18 +110,20 @@ public class TSPData {
 
 		return new TSPData(name, comment, dimension, fields);
 	}
-
-	public void nodesToGraph() {
-
-		for (int i = 0; i < dimension; i++) {
+	
+	public void nodesToGraph(){
+		
+		for(int i = 0; i < dimension; i++){
 			graph.add(new ArrayList<Float>());
-			for (int j = 0; j < dimension; j++) {
+			for(int j = 0; j < dimension; j++){
 				double dist = nodes.get(i).distance(nodes.get(j));
-				graph.get(i).add(new Float(dist));
+				graph.get(i).add( new Float(dist));
 			}
-
+			
 		}
-
+		
 	}
 
 }
+
+
