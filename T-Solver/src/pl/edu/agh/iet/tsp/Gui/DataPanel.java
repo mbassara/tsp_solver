@@ -15,6 +15,8 @@ import pl.edu.agh.iet.tsp.Model.TSPDataSerialization;
 
 public class DataPanel extends JPanel {
 
+	private static final long serialVersionUID = -1588798219506287543L;
+
 	public DataPanel(final MapPanel mapPanel, final Data data,
 			final JFrame mainFrame) {
 

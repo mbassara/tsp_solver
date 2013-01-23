@@ -18,12 +18,12 @@ import net.java.dev.designgridlayout.LabelAlignment;
 import pl.edu.agh.iet.tsp.Algorithm.IResultListener;
 import pl.edu.agh.iet.tsp.Algorithm.OptionsForAlgorithm;
 import pl.edu.agh.iet.tsp.Algorithm.RunAlgorithm;
-import pl.edu.agh.iet.tsp.Algorithm.Tester;
 import pl.edu.agh.iet.tsp.Model.TSPData;
 import pl.edu.agh.iet.tsp.Model.TSPDataSerialization;
 
 public class OptionPanel extends JPanel implements IResultListener {
 
+	private static final long serialVersionUID = -1588798219506287543L;
 	private ProgressBar progress;
 	private JFrame mainFrame;
 	private MapPanel mapPanel;
@@ -203,8 +203,8 @@ public class OptionPanel extends JPanel implements IResultListener {
 				// 10, 100);
 				//
 				// generatedTSPData.nodesToGraph();
-				OptionsForAlgorithm params = Tester
-						.generateOptionsForAlgorithm();
+				// OptionsForAlgorithm params = Tester
+				// .generateOptionsForAlgorithm();
 
 				// System.out.println(optionsForAlgorithm);
 

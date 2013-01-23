@@ -8,6 +8,7 @@ import javax.swing.JProgressBar;
 
 public class ProgressBar extends JPanel {
 
+	private static final long serialVersionUID = -1588798219506287543L;
 	private final JProgressBar progressBar;
 
 	public ProgressBar() {
