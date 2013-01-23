@@ -263,8 +263,8 @@ public class OptionPanel extends JPanel implements IResultListener {
 
 		mapPanel.setSolution(true);
 		save.setVisible(true);
-		// mainFrame.repaint();
+		mapPanel.repaint();
 
-		// calculate.setEnabled(true);
+		calculate.setEnabled(true);
 	}
 }

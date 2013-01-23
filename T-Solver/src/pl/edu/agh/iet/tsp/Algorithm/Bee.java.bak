@@ -189,17 +189,7 @@ public class Bee {
 				if (current_city == 0){
 					dist = 1.0;
 				}else {
-					ArrayList<Float> tmp = tspdata.graph.get(current_city-1);
-					int index = A_set.get(j)-1;
-					//System.out.println("tmp.size() = " + tmp.size() + " index = " + index);
-					if(index < 0 || index >= tmp.size())
-					{
-						for(Integer integ : A_set)
-							System.out.print(integ + " ");
-						System.out.println("");
-					}
-					dist = tmp.get(index);
-							
+					dist = tspdata.graph.get(current_city-1).get(A_set.get(j)-1);
 				}
 				P_set.add( Math.pow(Phi_set.get(j), algparams.alpha) * Math.pow(1.0 / dist , algparams.beta));	
 			}

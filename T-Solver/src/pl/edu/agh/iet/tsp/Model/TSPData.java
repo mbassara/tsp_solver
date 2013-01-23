@@ -72,31 +72,39 @@ public class TSPData {
 		return nodes;
 	}
 
-	public void setNodes(ArrayList<Field> newNodes) {
-		nodes = newNodes;
+	public void setNodes(ArrayList<Field> nodes) {
+		this.nodes = nodes;
 		nodesToGraph();
 	}
 
 	@Override
 	public String toString() {
-		String result = "TSV Data Object:";
-
-		if (name != null)
-			result += "\n\tname:\t\t" + name;
-		if (comment != null)
-			result += "\n\tcomment:\t" + comment;
-		if (dimension != -1)
-			result += "\n\tdimmen:\t\t" + dimension;
-		if (nodes != null && nodes.size() > 0) {
-			result += "\n\tX range:\t" + minX + "\t<=>\t" + maxX;
-			result += "\n\tY range:\t" + minY + "\t<=>\t" + maxY;
-			result += "\n\tpoints:\t\t";
-			if (nodes != null)
-				for (Field field : nodes)
-					result += field + " ";
-			result.substring(0, result.length() - 2);
+		// String result = "TSV Data Object:";
+		//
+		// if (name != null)
+		// result += "\n\tname:\t\t" + name;
+		// if (comment != null)
+		// result += "\n\tcomment:\t" + comment;
+		// if (dimension != -1)
+		// result += "\n\tdimmen:\t\t" + dimension;
+		// if (nodes != null && nodes.size() > 0) {
+		// result += "\n\tX range:\t" + minX + "\t<=>\t" + maxX;
+		// result += "\n\tY range:\t" + minY + "\t<=>\t" + maxY;
+		// result += "\n\tpoints:\t\t";
+		// if (nodes != null)
+		// for (Field field : nodes)
+		// result += field + " ";
+		// result.substring(0, result.length() - 2);
+		// }
+		ArrayList<Double> tab = new ArrayList<Double>(nodes.size());
+		String result = "Nodes lenght = " + nodes.size() + "\n";
+		for (Field field : nodes) {
+			tab.add(field.x + field.y);
 		}
-
+		Collections.sort(tab);
+		for (Double array_double : tab) {
+			result += array_double + " ";
+		}
 		return result;
 	}
 
@@ -116,7 +124,7 @@ public class TSPData {
 	}
 
 	public void nodesToGraph() {
-
+		graph = new ArrayList<ArrayList<Float>>();
 		for (int i = 0; i < dimension; i++) {
 			graph.add(new ArrayList<Float>());
 			for (int j = 0; j < dimension; j++) {
