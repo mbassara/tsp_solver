@@ -15,17 +15,21 @@ import javax.swing.JTextField;
 
 import net.java.dev.designgridlayout.DesignGridLayout;
 import net.java.dev.designgridlayout.LabelAlignment;
+import pl.edu.agh.iet.tsp.Algorithm.IResultListener;
 import pl.edu.agh.iet.tsp.Algorithm.OptionsForAlgorithm;
 import pl.edu.agh.iet.tsp.Algorithm.RunAlgorithm;
 import pl.edu.agh.iet.tsp.Algorithm.Tester;
 import pl.edu.agh.iet.tsp.Model.TSPData;
 import pl.edu.agh.iet.tsp.Model.TSPDataSerialization;
 
-public class OptionPanel extends JPanel {
+public class OptionPanel extends JPanel implements IResultListener {
 
-	ProgressBar progress;
-	JFrame mainFrame;
-	MapPanel mapPanel;
+	private ProgressBar progress;
+	private JFrame mainFrame;
+	private MapPanel mapPanel;
+	private final JButton save;
+	private final JButton calculate;
+	private final IResultListener this_instance = this;
 
 	private double[][] defaultValue = { { 0.0, 0.95, 0.8 },
 			{ 0.95, 0.975, 0.2 }, { 0.975, 0.99, 0.02 }, { 0.99, 1.0, 0.0 },
@@ -127,10 +131,10 @@ public class OptionPanel extends JPanel {
 
 		layout.emptyRow();
 
-		final JButton save = new JButton("Save");
+		save = new JButton("Save");
 		save.setVisible(false);
 
-		final JButton calculate = new JButton("Calculate");
+		calculate = new JButton("Calculate");
 
 		calculate.setBackground(Color.gray);
 		progress = new ProgressBar();
@@ -205,33 +209,10 @@ public class OptionPanel extends JPanel {
 				// System.out.println(optionsForAlgorithm);
 
 				mapPanel.data.tspdata.nodesToGraph();
-				TSPData result = RunAlgorithm.runAlgoThread(
-						optionsForAlgorithm, mapPanel.data.tspdata, progress);
-
-				mapPanel.data.tspdata = result;
-				System.out.println(result);
-				mapPanel.data.readData(result);
-
-				// optionsForAlgorithm - opcje algorytmu
-				// MapPanel.data - dane wejsciowe
-				// TODO ALGORYTM
-				//
-				// zakladam ze otrzymam klase TSPData z posortowanymi
-				// punktami ( w kolejnosci odwiedzania ) i ogolny wynik
-				// rozwiazania
-				//
-
-				int sol = 653;
-				JLabel solution = new JLabel("Total Solution: " + sol);
-				mainFrame.getContentPane().add(solution, BorderLayout.SOUTH);
+				RunAlgorithm.runAlgoThread(optionsForAlgorithm,
+						mapPanel.data.tspdata, progress, this_instance);
 
 				calculate.setEnabled(false);
-				Task task = new Task(calculate, progress);
-				task.execute();
-
-				mapPanel.setSolution(true);
-				save.setVisible(true);
-				mainFrame.repaint();
 			}
 
 		});
@@ -269,4 +250,21 @@ public class OptionPanel extends JPanel {
 		return progress;
 	}
 
+	@Override
+	public void receiveResult(TSPData result) {
+
+		mapPanel.data.tspdata = result;
+		// System.out.println(result);
+		mapPanel.data.readData(result);
+
+		int sol = 653;
+		JLabel solution = new JLabel("Total Solution: " + sol);
+		mainFrame.getContentPane().add(solution, BorderLayout.SOUTH);
+
+		mapPanel.setSolution(true);
+		save.setVisible(true);
+		// mainFrame.repaint();
+
+		// calculate.setEnabled(true);
+	}
 }

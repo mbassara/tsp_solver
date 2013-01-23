@@ -6,25 +6,26 @@ import pl.edu.agh.iet.tsp.Model.TSPData;
 
 public class RunAlgorithm {
 
-	public static TSPData runAlgoThread(OptionsForAlgorithm params,
-			TSPData tspData, ProgressBar progressBar) {
-		// System.out.println(tspData.getNodes().size());
-		// System.out.println(params.tab.length);
-		BCOAlgorithm bcoalgorithm = new BCOAlgorithm(params, tspData);
-		bcoalgorithm.runBCO(progressBar);
-		Result res = bcoalgorithm.getResult();
+	public static void runAlgoThread(OptionsForAlgorithm params,
+			TSPData tspData, ProgressBar progressBar,
+			IResultListener resultListener) {
 
-		// ArrayList<Integer> path = new
-		// ArrayList<Integer>(tspData.getNodes().size());
-		//
-		// for(int i = 0; i < tspData.getNodes().size(); i++)
-		// {
-		// path.add(new Integer(i));
-		// }
-		// Collections.shuffle(path);
-		// Results mock = new Results(10, path, 12);
+		final OptionsForAlgorithm options = params;
+		final TSPData data = tspData;
+		final ProgressBar bar = progressBar;
+		final IResultListener listener = resultListener;
 
-		return Converter.convert(res, tspData);
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				BCOAlgorithm bcoalgorithm = new BCOAlgorithm(options, data);
+				bcoalgorithm.runBCO(bar);
+				Result res = bcoalgorithm.getResult();
+
+				listener.receiveResult(Converter.convert(res, data));
+
+			}
+		}).start();
 	}
-
 }
