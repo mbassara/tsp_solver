@@ -34,7 +34,7 @@ public class MainWindow {
 				dataTab.setPreferredSize(new Dimension(xSize, 32));
 				mainFrame.getContentPane().add(BorderLayout.NORTH, dataTab);
 
-				OptionPanel optionsTab = new OptionPanel(mainFrame, mapPanel);
+				OptionPanel optionsTab = new OptionPanel(mapPanel);
 
 				optionsTab.setPreferredSize(new Dimension(2 * xSize / 10,
 						8 * ySize / 10));

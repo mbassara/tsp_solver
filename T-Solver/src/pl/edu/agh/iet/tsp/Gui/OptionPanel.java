@@ -6,10 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
-import javax.naming.spi.DirStateFactory.Result;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -26,7 +24,6 @@ public class OptionPanel extends JPanel implements IResultListener {
 
 	private static final long serialVersionUID = -1588798219506287543L;
 	private final ProgressBar progress;
-	private final JFrame mainFrame;
 	private final MapPanel mapPanel;
 	private final JButton save;
 	private final JButton calculate;
@@ -36,10 +33,9 @@ public class OptionPanel extends JPanel implements IResultListener {
 			{ 0.95, 0.975, 0.2 }, { 0.975, 0.99, 0.02 }, { 0.99, 1.0, 0.0 },
 			{ 0.0, 0.0, 0.0 } };
 
-	public OptionPanel(JFrame _mainFrame, MapPanel _mapPanel) {
+	public OptionPanel(MapPanel _mapPanel) {
 		super(new BorderLayout());
 
-		mainFrame = _mainFrame;
 		mapPanel = _mapPanel;
 
 		final JPanel main = new JPanel();
