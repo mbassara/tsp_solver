@@ -23,7 +23,8 @@ public class RunAlgorithm {
 				bcoalgorithm.runBCO(bar);
 				Result res = bcoalgorithm.getResult();
 
-				listener.receiveResult(Converter.convert(res, data));
+				listener.receiveResult(Converter.convert(res, data),
+						res.tour_length);
 
 			}
 		}).start();

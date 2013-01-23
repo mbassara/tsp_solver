@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+import javax.naming.spi.DirStateFactory.Result;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -24,14 +25,14 @@ import pl.edu.agh.iet.tsp.Model.TSPDataSerialization;
 public class OptionPanel extends JPanel implements IResultListener {
 
 	private static final long serialVersionUID = -1588798219506287543L;
-	private ProgressBar progress;
-	private JFrame mainFrame;
-	private MapPanel mapPanel;
+	private final ProgressBar progress;
+	private final JFrame mainFrame;
+	private final MapPanel mapPanel;
 	private final JButton save;
 	private final JButton calculate;
 	private final IResultListener this_instance = this;
 
-	private double[][] defaultValue = { { 0.0, 0.95, 0.8 },
+	private final double[][] defaultValue = { { 0.0, 0.95, 0.8 },
 			{ 0.95, 0.975, 0.2 }, { 0.975, 0.99, 0.02 }, { 0.99, 1.0, 0.0 },
 			{ 0.0, 0.0, 0.0 } };
 
@@ -202,7 +203,6 @@ public class OptionPanel extends JPanel implements IResultListener {
 				mapPanel.data.tspdata.nodesToGraph();
 				RunAlgorithm.runAlgoThread(optionsForAlgorithm,
 						mapPanel.data.tspdata, progress, this_instance);
-
 				calculate.setEnabled(false);
 			}
 
@@ -238,10 +238,9 @@ public class OptionPanel extends JPanel implements IResultListener {
 	}
 
 	@Override
-	public void receiveResult(TSPData result) {
+	public void receiveResult(TSPData result, double distance) {
 
-		int sol = 653;
-		MainWindow.setSolutionLabelText("Total Solution: " + sol);
+		MainWindow.setSolutionLabelText("Total Solution: " + distance);
 
 		// System.out.println(result);
 		mapPanel.data.readData(result);
