@@ -32,7 +32,6 @@ public class MapPanel extends JPanel {
 		mainFrame.setVisible(true);
 		mainFrame.getContentPane().add(this);
 		mainFrame.repaint();
-
 	}
 
 	@Override

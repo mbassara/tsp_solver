@@ -199,15 +199,6 @@ public class OptionPanel extends JPanel implements IResultListener {
 				optionsForAlgorithm.setN(mapPanel.data.tspdata.getNodes()
 						.size());
 
-				// TSPData generatedTSPData = TSPData.generateData("test", null,
-				// 10, 100);
-				//
-				// generatedTSPData.nodesToGraph();
-				// OptionsForAlgorithm params = Tester
-				// .generateOptionsForAlgorithm();
-
-				// System.out.println(optionsForAlgorithm);
-
 				mapPanel.data.tspdata.nodesToGraph();
 				RunAlgorithm.runAlgoThread(optionsForAlgorithm,
 						mapPanel.data.tspdata, progress, this_instance);
@@ -246,20 +237,14 @@ public class OptionPanel extends JPanel implements IResultListener {
 
 	}
 
-	public ProgressBar getProgress() {
-		return progress;
-	}
-
 	@Override
 	public void receiveResult(TSPData result) {
 
-		mapPanel.data.tspdata = result;
+		int sol = 653;
+		MainWindow.setSolutionLabelText("Total Solution: " + sol);
+
 		// System.out.println(result);
 		mapPanel.data.readData(result);
-
-		int sol = 653;
-		JLabel solution = new JLabel("Total Solution: " + sol);
-		mainFrame.getContentPane().add(solution, BorderLayout.SOUTH);
 
 		mapPanel.setSolution(true);
 		save.setVisible(true);

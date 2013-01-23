@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -13,6 +14,7 @@ public class MainWindow {
 
 	private static MapPanel mapPanel;
 	private static Data data;
+	private static final JLabel solutionLabel = new JLabel();
 
 	public static void main(String[] args) {
 
@@ -39,10 +41,17 @@ public class MainWindow {
 
 				mainFrame.getContentPane().add(BorderLayout.EAST, optionsTab);
 
+				mainFrame.getContentPane().add(solutionLabel,
+						BorderLayout.SOUTH);
+
 				mainFrame.setVisible(true);
 			}
 		});
 
+	}
+
+	public static void setSolutionLabelText(String text) {
+		solutionLabel.setText(text);
 	}
 
 	static void initialize(JFrame mainFrame) {
