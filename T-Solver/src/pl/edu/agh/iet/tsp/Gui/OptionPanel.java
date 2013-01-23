@@ -133,7 +133,7 @@ public class OptionPanel extends JPanel {
 		final JButton calculate = new JButton("Calculate");
 
 		calculate.setBackground(Color.gray);
-		progress = new ProgressBar(calculate);
+		progress = new ProgressBar();
 		calculate.addActionListener(new ActionListener() {
 
 			@Override
@@ -206,7 +206,7 @@ public class OptionPanel extends JPanel {
 
 				mapPanel.data.tspdata.nodesToGraph();
 				TSPData result = RunAlgorithm.runAlgoThread(
-						optionsForAlgorithm, mapPanel.data.tspdata);
+						optionsForAlgorithm, mapPanel.data.tspdata, progress);
 
 				mapPanel.data.tspdata = result;
 				System.out.println(result);
@@ -235,7 +235,6 @@ public class OptionPanel extends JPanel {
 			}
 
 		});
-		ProgressBar progress = new ProgressBar(calculate);
 		layout.row().grid().add(calculate).add(save);
 		layout.row().center().add(progress);
 

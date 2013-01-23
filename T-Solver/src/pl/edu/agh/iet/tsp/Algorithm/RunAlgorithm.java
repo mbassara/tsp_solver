@@ -1,16 +1,17 @@
 package pl.edu.agh.iet.tsp.Algorithm;
 
+import pl.edu.agh.iet.tsp.Gui.ProgressBar;
 import pl.edu.agh.iet.tsp.Model.Converter;
 import pl.edu.agh.iet.tsp.Model.TSPData;
 
 public class RunAlgorithm {
 
 	public static TSPData runAlgoThread(OptionsForAlgorithm params,
-			TSPData tspData) {
+			TSPData tspData, ProgressBar progressBar) {
 		// System.out.println(tspData.getNodes().size());
 		// System.out.println(params.tab.length);
 		BCOAlgorithm bcoalgorithm = new BCOAlgorithm(params, tspData);
-		bcoalgorithm.runBCO();
+		bcoalgorithm.runBCO(progressBar);
 		Result res = bcoalgorithm.getResult();
 
 		// ArrayList<Integer> path = new
