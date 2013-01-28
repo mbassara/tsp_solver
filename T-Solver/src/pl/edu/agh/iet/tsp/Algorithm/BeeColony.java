@@ -13,7 +13,8 @@ public class BeeColony {
 	public float profitability;
 
 	public Dance min_dance;
-
+	public int min_dance_iteration;
+	
 	public BeeColony(int count, BCOAlgorithm algorithm) {
 
 		this.count = count;
@@ -38,6 +39,7 @@ public class BeeColony {
 			}
 			if (dance.tour_length < min_dance.tour_length) {
 				min_dance = dance;
+				min_dance_iteration = algorithm.iteration;
 			}
 		}
 		dancers = dancing;

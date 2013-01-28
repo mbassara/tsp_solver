@@ -54,7 +54,7 @@ public class BCOAlgorithm {
 	}
 
 	public Result getResult() {
-		return new Result(iteration, colony.min_dance.path,
+		return new Result(iteration, colony.min_dance_iteration, colony.min_dance.path,
 				colony.min_dance.tour_length);
 	}
 
