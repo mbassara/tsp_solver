@@ -29,6 +29,12 @@ public class OptionPanel extends JPanel implements IResultListener {
 	private final JButton calculate;
 	private final IResultListener this_instance = this;
 
+	private final JTextField bcmax = new JTextField();
+	private final JTextField alpha = new JTextField();
+	private final JTextField gamma = new JTextField();
+	private final JTextField k = new JTextField();
+	private final JTextField beta = new JTextField();
+
 	private final double[][] defaultValue = { { 0.0, 0.95, 0.8 },
 			{ 0.95, 0.975, 0.2 }, { 0.975, 0.99, 0.02 }, { 0.99, 1.0, 0.0 },
 			{ 0.0, 0.0, 0.0 } };
@@ -47,12 +53,6 @@ public class OptionPanel extends JPanel implements IResultListener {
 		JLabel betaLabel = new JLabel("beta");
 		JLabel gammaLabel = new JLabel("gamma");
 		JLabel kLabel = new JLabel("k");
-
-		final JTextField bcmax = new JTextField();
-		final JTextField alpha = new JTextField();
-		final JTextField gamma = new JTextField();
-		final JTextField k = new JTextField();
-		final JTextField beta = new JTextField();
 
 		bcmax.setText("13");
 		alpha.setText("0.3");
@@ -234,17 +234,21 @@ public class OptionPanel extends JPanel implements IResultListener {
 	}
 
 	@Override
-	public void receiveResult(TSPData result, double distance) {
+	public void receiveResult(TSPData result, int best_iteration,
+			double distance) {
 
-		MainWindow.setSolutionLabelText("Total Solution: " + distance);
+		MainWindow.setIterationLabelText("Best iteration: " + best_iteration
+				+ " of " + bcmax.getText());
+		MainWindow.setDistanceLabelText("Shortest path (length): "
+				+ String.format("%.2f", distance));
 
 		// System.out.println(result);
 		mapPanel.data.readData(result);
 
 		mapPanel.setSolution(true);
 		save.setVisible(true);
-		mapPanel.repaint();
 
+		mapPanel.repaint();
 		calculate.setEnabled(true);
 	}
 }

@@ -3,7 +3,6 @@ package pl.edu.agh.iet.tsp.Model;
 import java.util.ArrayList;
 
 import pl.edu.agh.iet.tsp.Algorithm.Result;
-import pl.edu.agh.iet.tsp.Gui.MainWindow;
 
 public class Converter {
 	public static TSPData convert(Result result, TSPData tspData) {
@@ -31,8 +30,6 @@ public class Converter {
 
 		}
 		tspData.setNodes(converted);
-		Double tmp = new Double(result.tour_length);
-		MainWindow.setSolutionLabelText(tmp.toString());
 
 		return tspData;
 	}

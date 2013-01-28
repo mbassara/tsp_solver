@@ -2,6 +2,7 @@ package pl.edu.agh.iet.tsp.Gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
@@ -14,7 +15,8 @@ public class MainWindow {
 
 	private static MapPanel mapPanel;
 	private static Data data;
-	private static final JLabel solutionLabel = new JLabel();
+	private static final JLabel resultDistanceLabel = new JLabel();
+	private static final JLabel resultIterationLabel = new JLabel();
 
 	public static void main(String[] args) {
 
@@ -41,8 +43,10 @@ public class MainWindow {
 
 				mainFrame.getContentPane().add(BorderLayout.EAST, optionsTab);
 
-				mainFrame.getContentPane().add(solutionLabel,
-						BorderLayout.SOUTH);
+				JPanel resultsPane = new JPanel(new GridLayout(1, 2));
+				resultsPane.add(resultDistanceLabel);
+				resultsPane.add(resultIterationLabel);
+				mainFrame.getContentPane().add(BorderLayout.SOUTH, resultsPane);
 
 				mainFrame.setVisible(true);
 			}
@@ -50,8 +54,12 @@ public class MainWindow {
 
 	}
 
-	public static void setSolutionLabelText(String text) {
-		solutionLabel.setText(text);
+	public static void setDistanceLabelText(String text) {
+		resultDistanceLabel.setText(text);
+	}
+
+	public static void setIterationLabelText(String text) {
+		resultIterationLabel.setText(text);
 	}
 
 	static void initialize(JFrame mainFrame) {

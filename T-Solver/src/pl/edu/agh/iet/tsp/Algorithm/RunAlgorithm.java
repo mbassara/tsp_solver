@@ -24,7 +24,7 @@ public class RunAlgorithm {
 				Result res = bcoalgorithm.getResult();
 
 				listener.receiveResult(Converter.convert(res, data),
-						res.tour_length);
+						res.best_iteration, res.tour_length);
 
 			}
 		}).start();
